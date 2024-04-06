@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+</head>
+<body>
+
+</div>
+<table data-th-border="2"  >
+    <tr>
+
+
+        <th>NAME</th>
+        <th>MAIL</th>
+        <th>AGE</th>
+
+    </tr>
+    <tr th:each="user : ${users}">
+
+        <td th:text="${user.getName()}">model</td>
+        <td th:text="${user.getlastName()}">series</td>
+        <td th:text="${user.getAge()}" >age</td>
+        <td>
+
+            <form th:action="@{/admin/user/id}">
+                <button type="submit" th:name="id" th:value="*{user.getId()}">изменить</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/user/deleteUser}">
+                <button type="submit" th:name="id" th:value="*{user.getId()}">удалить</button>
+            </form>
+        </td>
+
+    </tr>
+</table>
+
+<form action="/admin/addUser" >
+    <button type="submit" >Добавить User</button>
+
+</form>
+</body>
+</html>
