@@ -7,10 +7,10 @@
 <h1>Welcome to Index PAGE!</h1>
 
 <label>Roles:
-    <input type="checkbox" name="roles"
-                   th:each="role : ${allRoles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
+    <input type="checkbox" name="role"
+                   th:each="role : ${roles}"
+                   th:text="${role.getRole()}"
+
                    th:field="*{roles}"
                    />
     </label>
