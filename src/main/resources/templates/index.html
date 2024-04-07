@@ -6,6 +6,17 @@
 <body>
 <h1>Welcome to Index PAGE!</h1>
 
+<label>Roles:
+    <input type="checkbox" name="roles"
+                   th:each="role : ${allRoles}"
+                   th:text="${role.name}"
+                   th:value="${role.id}"
+                   th:field="*{roles}"
+                   />
+    </label>
 
+<form th:action="@{/login}" method="post">
+    <button type="submit">Sign in</button>
+</form>
 </body>
 </html>

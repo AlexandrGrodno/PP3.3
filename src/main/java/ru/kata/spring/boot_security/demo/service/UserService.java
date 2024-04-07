@@ -9,11 +9,9 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User findUserById(Long id);
-
-    void updateUser(User user, Long id);
+    User findUserById(int id);
 
     void saveUser(User user);
 
-    boolean deleteUserById(Long id);
+    boolean deleteUserById(int id);
 }

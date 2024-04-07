@@ -1,50 +1,50 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repasitories.UserRepository;
+import ru.kata.spring.boot_security.demo.repasitories.UserDAO;
 
 import java.util.List;
-
+@Service
 public class UserServiceimpl implements UserService{
-    public UserServiceimpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
-    private  UserRepository userRepository;
+
+    private UserDAO userDAO;
+    @Autowired
+    public UserServiceimpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Override
     public List<User> findAll() {
-        return null;
+
+        return userDAO.getAllUser() ;
     }
 
     @Override
     public User findByUsername(String username) {
-
-        if (userRepository.findByUsername(username)==null) {
-            throw new UsernameNotFoundException("Пользователь с таким именем не найден");
-        }
-        return userRepository.findByUsername(username);
-        
+        return userDAO.getUserByName(username);
     }
+
 
     @Override
-    public User findUserById(Long id) {
-        return null;
+    public User findUserById(int id) {
+        return userDAO.getUser(id);
     }
 
-    @Override
-    public void updateUser(User user, Long id) {
-
-    }
-
+    @Transactional
     @Override
     public void saveUser(User user) {
+        userDAO.saveUser(user);
 
     }
-
+    @Transactional
     @Override
-    public boolean deleteUserById(Long id) {
+    public boolean deleteUserById(int id) {
+        userDAO.deleteUser(id);
         return false;
     }
 }

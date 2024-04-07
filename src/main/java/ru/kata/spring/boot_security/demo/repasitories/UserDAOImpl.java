@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.repasitories;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.User;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,13 @@ public class UserDAOImpl implements UserDAO{
     private EntityManager em;
     @Override
     public List<User> getAllUser() {
-        return null;
+
+        Query query = em.createQuery("from User");
+        return query.getResultList();
     }
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         em.merge(user);
 
@@ -24,13 +28,20 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User getUser(int id) {
-        Query query = em.createQuery("Select u from User u left join fetch u.roles where u.id=:username");
-        query.setParameter("username",id);
+        Query query = em.createQuery("Select u from User u left join fetch u.roles where u.id=:idUser");
+        query.setParameter("idUser",id);
         return (User) query.getSingleResult();
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public User getUserByName(String userName) {
+        Query query = em.createQuery("Select u from User u left join fetch u.roles where u.username=:userName");
+        query.setParameter("userName",userName);
+        return (User) query.getSingleResult();
+    }
 
+    @Override
+    public void deleteUser(int id) {
+        em.remove(getUser(id));
     }
 }
