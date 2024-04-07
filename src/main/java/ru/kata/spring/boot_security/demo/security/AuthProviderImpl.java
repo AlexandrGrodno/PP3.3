@@ -29,23 +29,24 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("!!!!!!");
+
         String name = authentication.getName();
-        System.out.println("&&&&&");
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         System.out.println(name);
-        System.out.println(userDetails.getUsername());
+        userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
+        System.out.println(password);
         if (!password.equals((userDetails.getPassword()))) {
             System.out.println(userDetailsService.loadUserByUsername(name)+"     "+name);
             throw new BadCredentialsException("Password incorrect");
         }
         else
-            return new UsernamePasswordAuthenticationToken(userDetails,password, Collections.emptyList());
+            return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities() );
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return true;
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 }

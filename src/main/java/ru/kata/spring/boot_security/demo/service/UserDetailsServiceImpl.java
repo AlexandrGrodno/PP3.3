@@ -1,12 +1,15 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.models.User;
+
+import ru.kata.spring.boot_security.demo.repasitories.UserDAOImpl;
 import ru.kata.spring.boot_security.demo.repasitories.UserRepository;
 
 import java.util.Optional;
@@ -23,14 +26,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Transactional
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userOp = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        ru.kata.spring.boot_security.demo.models.User userOp = userRepository.findByUsername(username);
         System.out.println(userOp+"  !   "+ username);
         if (userOp == null) throw  new UsernameNotFoundException("User not found!");
-        else  {
+        UserDetails userDetails = User.builder()
+                .username(userOp.getUsername())
+                .password(userOp.getPassword())
+                .authorities(userOp.getAuthorities())
+                .build();
 
-            return userOp;
 
-        }
+
+            return userDetails;
     }
 }

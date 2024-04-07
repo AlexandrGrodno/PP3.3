@@ -23,9 +23,9 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public User getUser(String name) {
-        Query query = em.createQuery("FROM User where username =:name");
-        query.setParameter("name",name);
+    public User getUser(int id) {
+        Query query = em.createQuery("Select u from User u left join fetch u.roles where u.id=:username");
+        query.setParameter("username",id);
         return (User) query.getSingleResult();
     }
 

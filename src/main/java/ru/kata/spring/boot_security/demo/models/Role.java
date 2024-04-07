@@ -20,8 +20,33 @@ public class Role implements GrantedAuthority {
     @Transient
     private List<User> users;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "role='" + role + '\'' +
+                '}';
+    }
+
     @Override
     public String getAuthority() {
-        return null;
+
+        return getRole();
     }
+
 }

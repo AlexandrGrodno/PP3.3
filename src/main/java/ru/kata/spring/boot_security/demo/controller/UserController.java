@@ -20,8 +20,13 @@ public class UserController {
         return "admin";
     }
     @GetMapping(value = "/user")
-    public String showUser(Model model){
+    public String showUser(){
         //model.addAttribute("users",userService.allUser());
         return "user";
+    }
+    @GetMapping(value = "/index")
+    public String showForAllUsers(){
+        //model.addAttribute("users",userService.allUser());
+        return "index";
     }
 }

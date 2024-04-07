@@ -7,18 +7,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import ru.kata.spring.boot_security.demo.security.AuthProviderImpl;
+import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private AuthProviderImpl authProvider;
+    private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, AuthProviderImpl authProvider) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, AuthProviderImpl authProvider, UserDetailsServiceImpl userDetailsService) {
         this.successUserHandler = successUserHandler;
-
-
         this.authProvider = authProvider;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
-                .defaultSuccessUrl("/user")
+                .defaultSuccessUrl("/index")
                 .permitAll()
                 .and()
 
@@ -41,7 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
+
         auth.authenticationProvider(authProvider);
+
     }
 
     // аутентификация inMemory

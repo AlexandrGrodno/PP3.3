@@ -22,7 +22,7 @@ public class User implements UserDetails {
 
     @NotEmpty( message = "Введите name")
     @Size(min = 2, max = 15, message = "Введите правильное имя")
-    @Column(name = "usrename")
+    @Column(name = "username")
     private String username;
 
     @Column(name = "lastname")
@@ -48,7 +48,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
