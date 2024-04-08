@@ -17,4 +17,10 @@ public class RoleServiceImpl implements RoleService{
     public List<Role> getListRole() {
         return roleDAO.getRolesList();
     }
+
+    @Override
+    public Role findRoleByName(String name) {
+        roleDAO.FindByRoleName(name);
+        return roleDAO.FindByRoleName(name);
+    }
 }

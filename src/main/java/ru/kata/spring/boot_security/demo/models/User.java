@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @Column(name = "id")
     private int id;
 
-    @NotEmpty( message = "Введите name")
+
     @Size(min = 2, max = 15, message = "Введите правильное имя")
     @Column(name = "username")
     private String username;
@@ -138,4 +138,15 @@ public class User implements UserDetails {
         return Objects.hash(username, lastName, age);
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

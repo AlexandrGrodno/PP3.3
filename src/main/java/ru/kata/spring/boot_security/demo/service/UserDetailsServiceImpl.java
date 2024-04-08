@@ -35,9 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .password(userOp.getPassword())
                 .authorities(userOp.getAuthorities())
                 .build();
-
-
-
-            return userDetails;
+        return userDetails;
     }
 }
