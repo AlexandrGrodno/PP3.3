@@ -39,8 +39,9 @@ public class User implements UserDetails {
     @Min(value = 4, message = "пароль нее может меньше  4 символов")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @Column(name = "roles")
+
     private Set<Role> roles;
 
 
@@ -121,8 +122,8 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Set<Role> role) {
+        this.roles = role;
     }
 
     @Override

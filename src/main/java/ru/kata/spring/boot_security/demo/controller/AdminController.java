@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,11 +28,16 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-
+    @GetMapping(value = "/admin/addUser")
+    public String addUser(Model model){
+        model.addAttribute("users",new User());
+        model.addAttribute("role1",roleService.getListRole());
+        return "editUser";
+    }
     @GetMapping(value = "/admin/user/id")
     public String editUser(@RequestParam (value = "id",defaultValue = "0") int id,Model model) {
         if (id > 0) model.addAttribute("users", userService.findUserById(id));
-        System.out.println(roleService.getListRole());
+
         model.addAttribute("role1",roleService.getListRole());
         return "editUser";
     }
@@ -43,15 +49,19 @@ public class AdminController {
 //    }
 
     @PostMapping("/admin/user")
-    public String saveUser(@Validated @ModelAttribute("users") User user,@ModelAttribute("rol") Role role, BindingResult bindingResult) {
-        //Set<Role> roleSet = user.getRoles().stream().map(Role::getRole)
-          //      .collect(HashSet::new,(hashSetRole,role) -> hashSetRole.add(roleService.findRoleByName(role)),HashSet::addAll);
-        //user.setRoles(roleSet);
-        System.out.println(role);
-        user.setRoles((Set<Role>) role);
-        if (bindingResult.hasErrors()){
-            System.out.println(bindingResult.toString());
-            return "editUser";}
+    public String saveUser(@Validated @ModelAttribute("users") User user,
+                           BindingResult bindingResult,@RequestParam(value = "roles",defaultValue = "ROLE_USER") List<String> roleNames) {
+
+            Set<Role> role2 = roleNames.stream()
+                    .map(roleService::findRoleByName)
+                    .collect(Collectors.toSet());
+
+
+        System.out.println("1111111111");
+        user.setRoles(role2);
+        //if (bindingResult.hasErrors()){
+            //System.out.println(bindingResult.toString());
+          //  return "editUser";}
         userService.saveUser(user);
         return "redirect:/admin";
     }

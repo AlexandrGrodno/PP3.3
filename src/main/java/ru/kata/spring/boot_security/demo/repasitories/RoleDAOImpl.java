@@ -26,7 +26,7 @@ public class RoleDAOImpl implements RoleDAO {
 
     @Override
     public Role FindByRoleName(String name) {
-        Query query = em.createQuery("Select r from Role r left join fetch r.role where r.role=:Name");
+        Query query = em.createQuery("Select r from Role r  where r.role=:Name");
         query.setParameter("Name",name);
         return (Role) query.getSingleResult();
     }

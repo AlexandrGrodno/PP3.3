@@ -36,18 +36,25 @@
     <br>
 
 
-    <label>Roles:
-            <input type="checkbox" name="roles"
-                   th:each="role : ${role1}"
-
-                   th:text="${role}"
-                   th:value="${role.role}"
-                   th:field="*{roles}"
-            />
-    </label>
-
+<!--    <label>Roles:-->
+<!--<br>-->
+<!--    <input autocomplete="on" type="checkbox" name="roles"-->
+<!--           th:each="ro : ${role1}"-->
+<!--           th:text="${ro.role}"-->
+<!--           th:value="${ro.getRole()}"-->
+<!--           th:checked="${ro.role.contains('USER')}"-->
+<!--           th:field="*{roles}"-->
+<!--    />-->
+<!--    </label>-->
 
     <br>
+
+    <label>Profession:</label>
+    <select th:field="*{roles}">
+    <option th:each="p : ${role1}" th:value="${p}" th:text="${p}" />
+    </select>
+    <br/>
+
     <input type="submit" value="записать">
 
 </form>

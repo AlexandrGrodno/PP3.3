@@ -33,12 +33,12 @@ public class AuthProviderImpl implements AuthenticationProvider {
         String name = authentication.getName();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
-        System.out.println(name);
+
         userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
-        System.out.println(password);
+
         if (!password.equals((userDetails.getPassword()))) {
-            System.out.println(userDetailsService.loadUserByUsername(name)+"     "+name);
+
             throw new BadCredentialsException("Password incorrect");
         }
         else
