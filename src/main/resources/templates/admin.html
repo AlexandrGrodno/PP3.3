@@ -10,13 +10,9 @@
 </head>
 <body>
 
-
-
 </div>
 <table data-th-border="2"  >
     <tr>
-
-
         <th>NAME</th>
         <th>LASTNAME</th>
         <th>AGE</th>
@@ -37,7 +33,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/deleteUser}">
+            <form th:action="@{/admin/deleteUser}" th:method="DELETE">
                 <button type="submit" th:name="id" th:value="*{user.getId()}">удалить</button>
             </form>
         </td>
@@ -50,7 +46,7 @@
 
 </form>
 <form th:action="@{/logout}" method="post">
-    <button type="submit">Sign Out</button>
+    <button type="submit">Выйти</button>
 </form>
 </body>
 </html>

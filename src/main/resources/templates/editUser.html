@@ -26,7 +26,7 @@
 
     <br>
         <label for="password" >Пароль:    </label>
-            <input type="text" th:field="*{password}" id="password">
+            <input type="password" th:field="*{password}" id="password">
              <div style="color:brown" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error </div>
 
     <br>
@@ -35,17 +35,6 @@
             <div style="color:brown" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">error </div>
     <br>
 
-
-<!--    <label>Roles:-->
-<!--<br>-->
-<!--    <input autocomplete="on" type="checkbox" name="roles"-->
-<!--           th:each="ro : ${role1}"-->
-<!--           th:text="${ro.role}"-->
-<!--           th:value="${ro.getRole()}"-->
-<!--           th:checked="${ro.role.contains('USER')}"-->
-<!--           th:field="*{roles}"-->
-<!--    />-->
-<!--    </label>-->
 
     <br>
 
@@ -60,7 +49,7 @@
 </form>
 
 <form th:action="@{/logout}" method="get">
-    <button type="submit">Sign Out</button>
+    <button type="submit">Выйти</button>
 </form>
 
 

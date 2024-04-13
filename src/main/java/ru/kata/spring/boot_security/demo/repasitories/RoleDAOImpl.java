@@ -9,7 +9,6 @@ import ru.kata.spring.boot_security.demo.models.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.Transient;
 import java.util.List;
 @Repository
 public class RoleDAOImpl implements RoleDAO {

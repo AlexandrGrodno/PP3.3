@@ -42,22 +42,12 @@ public class AdminController {
         return "editUser";
     }
 
-//    @GetMapping(value = "/admin/user/id")
-//    public String saveUser(@RequestParam(value = "id", defaultValue = "0")int  id, Model model) {
-//        model.addAttribute("users", new User());
-//        return "editUser";
-//    }
 
     @PostMapping("/admin/user")
     public String saveUser(@Validated @ModelAttribute("users") User user,
                            BindingResult bindingResult
             ,@RequestParam(value = "roles",defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
 
-            Set<Role> role2 = roleNames.stream()
-                    .map(roleService::findRoleByName)
-                    .collect(Collectors.toSet());
-
-        user.setRoles(role2);
         if (bindingResult.hasFieldErrors("username")
                 || (bindingResult.hasFieldErrors("lastnName"))
                 || (bindingResult.hasFieldErrors("password"))
@@ -65,6 +55,11 @@ public class AdminController {
             model.addAttribute("role1",roleService.getListRole());
             return "editUser";
         }
+        Set<Role> role2 = roleNames.stream()
+                .map(roleService::findRoleByName)
+                .collect(Collectors.toSet());
+
+        user.setRoles(role2);
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -74,7 +69,7 @@ public class AdminController {
         model.addAttribute("users", userService.findAll());
         return "admin";
     }
-    @GetMapping(value = "/admin/deleteUser")
+    @DeleteMapping(value = "/admin/deleteUser")
     public String deleteUser(@RequestParam(value = "id")int id) {
 
         userService.deleteUserById(id);

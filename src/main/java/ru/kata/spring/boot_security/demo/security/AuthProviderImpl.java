@@ -23,10 +23,6 @@ public class AuthProviderImpl implements AuthenticationProvider {
         this.userDetailsService = userDetailsService;
     }
 
-//    @Autowired
-//    public UserDetailsService AuthProviderImpl(UserDetailsService userService){
-//        return this.userDetailsService = userService;
-//    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -37,7 +33,7 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
         userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
-        System.out.println(passwordEncoder().encode(userDetails.getPassword()));
+
         if (!password.equals(userDetails.getPassword())) {
 
             throw new BadCredentialsException("Password incorrect");

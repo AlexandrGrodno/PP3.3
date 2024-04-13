@@ -21,6 +21,7 @@ public class UserDAOImpl implements UserDAO{
     }
     @Override
     public void saveUser(User user) {
+
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         em.merge(user);
     }
@@ -29,6 +30,7 @@ public class UserDAOImpl implements UserDAO{
     public User getUser(int id) {
         Query query = em.createQuery("Select u from User u left join fetch u.roles where u.id=:idUser");
         query.setParameter("idUser",id);
+
         return (User) query.getSingleResult();
     }
 

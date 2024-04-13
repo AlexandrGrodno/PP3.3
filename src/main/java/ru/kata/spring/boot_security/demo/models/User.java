@@ -56,13 +56,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-//    public User(String username, String lastName, int age, String password, Set<Role> roles) {
-//            this.username = username;
-//            this.lastName = lastName;
-//            this.age = age;
-//            this.password = password;
-//            this.roles = roles;
-//    }
+    public User(String username, String lastName, int age, String password, Set<Role> roles) {
+            this.username = username;
+            this.lastName = lastName;
+            this.age = age;
+            this.password = password;
+            this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
