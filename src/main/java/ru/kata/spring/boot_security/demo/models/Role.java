@@ -1,8 +1,11 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -14,11 +17,17 @@ public class Role implements GrantedAuthority {
     @Column(name = "id")
     private int Id;
     @Column
+    @NotBlank
+//    @UniqueElements
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
-    @Transient
+   @ManyToMany(mappedBy = "roles")
+
     private List<User> users;
+
+    public Role() {
+    }
+
 
     public String getRole() {
         return role;

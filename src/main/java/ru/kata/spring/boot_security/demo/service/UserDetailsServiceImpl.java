@@ -27,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(username);
         ru.kata.spring.boot_security.demo.models.User userOp = userRepository.findByUsername(username);
 
         if (userOp == null) throw  new UsernameNotFoundException("User not found!");

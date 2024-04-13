@@ -1,4 +1,5 @@
 package ru.kata.spring.boot_security.demo.repasitories;
+import static ru.kata.spring.boot_security.demo.configs.WebSecurityConfig.passwordEncoder;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,10 @@ public class UserDAOImpl implements UserDAO{
         Query query = em.createQuery("from User");
         return query.getResultList();
     }
-
     @Override
-    @Transactional
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
         em.merge(user);
-
     }
 
     @Override

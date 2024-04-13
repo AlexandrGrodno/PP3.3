@@ -1,11 +1,16 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,16 +41,28 @@ public class User implements UserDetails {
     private int age;
 
     @Column
-    @Min(value = 4, message = "пароль нее может меньше  4 символов")
+    @Size(  min = 4, message = "пароль нее может меньше  4 символов")
     private String password;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @Column(name = "roles")
-
+    @ManyToMany(cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    @Fetch(FetchMode.JOIN)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
+    public User() {
+    }
 
-
+//    public User(String username, String lastName, int age, String password, Set<Role> roles) {
+//            this.username = username;
+//            this.lastName = lastName;
+//            this.age = age;
+//            this.password = password;
+//            this.roles = roles;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

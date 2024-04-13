@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
+import static ru.kata.spring.boot_security.demo.configs.WebSecurityConfig.passwordEncoder;
 
 import java.util.Collections;
 
@@ -36,8 +37,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
         userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
-
-        if (!password.equals((userDetails.getPassword()))) {
+        System.out.println(passwordEncoder().encode(userDetails.getPassword()));
+        if (!password.equals(userDetails.getPassword())) {
 
             throw new BadCredentialsException("Password incorrect");
         }

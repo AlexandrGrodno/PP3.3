@@ -50,18 +50,21 @@ public class AdminController {
 
     @PostMapping("/admin/user")
     public String saveUser(@Validated @ModelAttribute("users") User user,
-                           BindingResult bindingResult,@RequestParam(value = "roles",defaultValue = "ROLE_USER") List<String> roleNames) {
+                           BindingResult bindingResult
+            ,@RequestParam(value = "roles",defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
 
             Set<Role> role2 = roleNames.stream()
                     .map(roleService::findRoleByName)
                     .collect(Collectors.toSet());
 
-
-        System.out.println("1111111111");
         user.setRoles(role2);
-        //if (bindingResult.hasErrors()){
-            //System.out.println(bindingResult.toString());
-          //  return "editUser";}
+        if (bindingResult.hasFieldErrors("username")
+                || (bindingResult.hasFieldErrors("lastnName"))
+                || (bindingResult.hasFieldErrors("password"))
+                || (bindingResult.hasFieldErrors("age"))) {
+            model.addAttribute("role1",roleService.getListRole());
+            return "editUser";
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }

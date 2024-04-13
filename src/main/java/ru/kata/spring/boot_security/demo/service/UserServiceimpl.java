@@ -19,30 +19,32 @@ public class UserServiceimpl implements UserService{
     }
 
     @Override
+    @Transactional
     public List<User> findAll() {
-
         return userDAO.getAllUser() ;
     }
 
     @Override
+    @Transactional
     public User findByUsername(String username) {
         return userDAO.getUserByName(username);
     }
 
 
     @Override
+    @Transactional
     public User findUserById(int id) {
         return userDAO.getUser(id);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void saveUser(User user) {
         userDAO.saveUser(user);
 
     }
-    @Transactional
     @Override
+    @Transactional
     public boolean deleteUserById(int id) {
         userDAO.deleteUser(id);
         return false;
