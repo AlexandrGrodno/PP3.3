@@ -29,30 +29,31 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin/addUser")
-    public String addUser(Model model){
-        model.addAttribute("users",new User());
-        model.addAttribute("role1",roleService.getListRole());
+    public String addUser(Model model) {
+        model.addAttribute("users", new User());
+        model.addAttribute("role1", roleService.getListRole());
         return "editUser";
     }
-    @GetMapping(value = "/admin/user/id")
-    public String editUser(@RequestParam (value = "id",defaultValue = "0") int id,Model model) {
-        if (id > 0) model.addAttribute("users", userService.findUserById(id));
 
-        model.addAttribute("role1",roleService.getListRole());
+    @GetMapping(value = "/admin/user/id")
+    public String editUser(@RequestParam(value = "id", defaultValue = "0") int id, Model model) {
+        if (id > 0) {
+            model.addAttribute("users", userService.findUserById(id));
+        }
+        model.addAttribute("role1", roleService.getListRole());
         return "editUser";
     }
 
 
     @PostMapping("/admin/user")
-    public String saveUser(@Validated @ModelAttribute("users") User user,
-                           BindingResult bindingResult
-            ,@RequestParam(value = "roles",defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
+    public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,
+                           @RequestParam(value = "roles", defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
 
         if (bindingResult.hasFieldErrors("username")
                 || (bindingResult.hasFieldErrors("lastnName"))
                 || (bindingResult.hasFieldErrors("password"))
                 || (bindingResult.hasFieldErrors("age"))) {
-            model.addAttribute("role1",roleService.getListRole());
+            model.addAttribute("role1", roleService.getListRole());
             return "editUser";
         }
         Set<Role> role2 = roleNames.stream()
@@ -65,13 +66,13 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin")
-    public String adminka(Model model){
+    public String adminka(Model model) {
         model.addAttribute("users", userService.findAll());
         return "admin";
     }
-    @DeleteMapping(value = "/admin/deleteUser")
-    public String deleteUser(@RequestParam(value = "id")int id) {
 
+    @DeleteMapping(value = "/admin/deleteUser")
+    public String deleteUser(@RequestParam(value = "id") int id) {
         userService.deleteUserById(id);
         return "redirect:/admin";
     }

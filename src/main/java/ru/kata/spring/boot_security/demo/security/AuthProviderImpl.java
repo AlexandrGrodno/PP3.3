@@ -10,14 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
-import static ru.kata.spring.boot_security.demo.configs.WebSecurityConfig.passwordEncoder;
 
-import java.util.Collections;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
+
     @Autowired
     public AuthProviderImpl(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -26,20 +25,13 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         String name = authentication.getName();
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
-
-        userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
-
         if (!password.equals(userDetails.getPassword())) {
-
             throw new BadCredentialsException("Password incorrect");
-        }
-        else
-            return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities() );
+        } else
+            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
     @Override

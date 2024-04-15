@@ -22,19 +22,20 @@ public class InitTable {
     }
 
     @PostConstruct
-    public void loadData(){
+    public void loadData() {
         Role roleAdmin = new Role();
         roleAdmin.setRole("ROLE_ADMIN");
         Role roleUser = new Role();
         roleUser.setRole("ROLE_USER");
         Set<Role> listAdmin = new HashSet<>();
         listAdmin.add(roleUser);
-        User user = new User("user","Petr",29,"user",listAdmin);
+//        listAdmin.add(roleAdmin);
+        User user = new User("user", "Petr", 29, "user", listAdmin);
         userService.saveUser(user);
 
         listAdmin.clear();
         listAdmin.add(roleAdmin);
-        user = new User("admin","Sergey",39,"admin",listAdmin);
+        user = new User("admin", "Sergey", 39, "admin", listAdmin);
         userService.saveUser(user);
 
     }

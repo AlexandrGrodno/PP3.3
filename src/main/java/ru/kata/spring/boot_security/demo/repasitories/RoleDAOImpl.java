@@ -10,10 +10,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+
 @Repository
 public class RoleDAOImpl implements RoleDAO {
     @PersistenceContext
     private EntityManager em;
+
     @Autowired
     public RoleDAOImpl(EntityManager em) {
         this.em = em;
@@ -21,21 +23,18 @@ public class RoleDAOImpl implements RoleDAO {
 
     @Override
     public List<Role> getRolesList() {
-
         return em.createQuery("from Role").getResultList();
     }
 
     @Override
-
-    public Role FindByRoleName(String name) {
-        Query query = em.createQuery("Select r from Role r  where r.role=:Name");
-        query.setParameter("Name",name);
+    public Role findByRoleName(String name) {
+        Query query = em.createQuery("Select r from Role r  where r.role=:name");
+        query.setParameter("name", name);
         return (Role) query.getSingleResult();
     }
 
     @Override
-
     public void saveRole(Role role) {
-      em.merge(role);
+        em.merge(role);
     }
 }

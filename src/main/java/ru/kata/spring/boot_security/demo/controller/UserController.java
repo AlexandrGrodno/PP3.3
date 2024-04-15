@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -28,14 +29,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/user")
-    public String showUser(Model model, Principal userDetails ){
-        User user = userService.findByUsername(userDetails.getName());
-        model.addAttribute("users",user);
+    public String showUser(Model model, Principal userDetails) {
+        User user = userService.findByUsername(userDetails.getName()).get();
+        model.addAttribute("users", user);
         return "user";
     }
+
     @GetMapping(value = "/index")
-    public String showForAllUsers(Model model, Role roles){
-        model.addAttribute("roles",roleService.getListRole());
+    public String showForAllUsers() {
         return "index";
     }
 }
