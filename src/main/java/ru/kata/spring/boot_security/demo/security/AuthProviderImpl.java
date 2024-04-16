@@ -11,38 +11,27 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
 
-import java.util.Collections;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
+
     @Autowired
     public AuthProviderImpl(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
-//    @Autowired
-//    public UserDetailsService AuthProviderImpl(UserDetailsService userService){
-//        return this.userDetailsService = userService;
-//    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         String name = authentication.getName();
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
-        System.out.println(name);
-        userDetails.getAuthorities().stream().forEach(System.out::println);
         String password = authentication.getCredentials().toString();
-        System.out.println(password);
-        if (!password.equals((userDetails.getPassword()))) {
-            System.out.println(userDetailsService.loadUserByUsername(name)+"     "+name);
+        if (!password.equals(userDetails.getPassword())) {
             throw new BadCredentialsException("Password incorrect");
-        }
-        else
-            return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities() );
+        } else
+            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
     @Override
