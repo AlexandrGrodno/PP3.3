@@ -34,6 +34,12 @@ public class User implements UserDetails {
     @Size(min = 2, max = 15, message = "Введите правильное имя")
     private String lastName;
 
+
+
+    @Column(name="email")
+    @Email
+    private String email;
+
     @Column(name = "age")
     @Min(value = 0, message = "возраст нее может меньше  0")
     @Max(value = 120, message = "возраст нее может больше  120 :)), но это не точно..")
@@ -142,6 +148,13 @@ public class User implements UserDetails {
         this.roles = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

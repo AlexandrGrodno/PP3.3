@@ -36,6 +36,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public String getEmail(String userName) {
+
+        return null;
+    }
+
+    @Override
     public User getUserByName(String userName) {
         Query query = em.createQuery("Select u from User u left join fetch u.roles where u.userName=:userName");
         query.setParameter("userName", userName);

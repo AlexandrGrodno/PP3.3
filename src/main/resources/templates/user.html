@@ -6,6 +6,10 @@
     </head>
     <body>
         <h1>User!!, welcome spring boot security page!</h1>
+        <br>
+        <div th:text="${users.getEmail()}">11111</div>
+        <a th:text="${users.getEmail()}">11111</a>
+        <br>
         <table data-th-border="2">
             <tr>
                 <th>NAME</th>
@@ -14,12 +18,12 @@
                 <th>AUTORITIES</th>
                 <th>PASSWRD</th>
             </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.getUserName()}">UserName</td>
-                <td th:text="${user.getLastName()}">LastName</td>
-                <td th:text="${user.getAge()}">Age</td>
-                <td th:text="${user.getAuthorities()}">series</td>
-                <td th:text="${user.getPassword()}">age</td>
+            <tr >
+                <td th:text="${users.getUserName()}">UserName</td>
+                <td th:text="${users.getLastName()}">LastName</td>
+                <td th:text="${users.getAge()}">Age</td>
+                <td th:text="${users.getAuthorities()}">series</td>
+                <td th:text="${users.getPassword()}">age</td>
             </tr>
         </table>
         <form th:action="@{/logout}" method="post">
