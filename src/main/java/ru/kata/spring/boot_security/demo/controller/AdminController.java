@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,9 +67,11 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin")
-    public String adminka(Model model) {
+    public String adminka(Model model,  Principal userDetails) {
         model.addAttribute("users", userService.findAll());
-        return "admin";
+        model.addAttribute("currentUser",userService.findByUsername(userDetails.getName()).get());
+        System.out.println(userService.findByUsername(userDetails.getName()).get());
+        return "adminpanel";
     }
 
     @DeleteMapping(value = "/admin/deleteUser")

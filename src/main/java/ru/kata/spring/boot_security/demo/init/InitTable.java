@@ -30,12 +30,12 @@ public class InitTable {
         Set<Role> listAdmin = new HashSet<>();
         listAdmin.add(roleUser);
 //        listAdmin.add(roleAdmin);
-        User user = new User("user", "Petr", 29, "user", listAdmin);
+        User user = new User("user", "Petr", 29,"aa@mail.ru", "user", listAdmin);
         userService.saveUser(user);
 
         listAdmin.clear();
         listAdmin.add(roleAdmin);
-        user = new User("admin", "Sergey", 39, "admin", listAdmin);
+        user = new User("admin", "Sergey", 39,"qa@mail.ru", "admin", listAdmin);
         userService.saveUser(user);
 
     }
