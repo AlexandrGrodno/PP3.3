@@ -8,6 +8,7 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <title>Bootstrap Example</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body class="p-3 m-0 border-0 bd-example m-0 border-0 bg-body-tertiary ">
 
@@ -25,19 +26,23 @@
 <br>
 <div class="container-fluid"><!-- боковая панель-->
     <div class="row ">
-        <div class="col-xl-2  bg-white " style="height: 900px;">
-            <ul class="nav btn-lg  nav-pills flex-column  style=width: 25%">
-                <li class="nav-item">
-                    <a class="nav-link active" type="button" aria-current="page"
-                       href="#"
-                       data-bs-toggle="collapse"
-                       data-bs-target=".multi-collapse"
-                       aria-selected="true"
-                       aria-controls="collapseWidthExample multiCollapseExample1">Admin</a>
+        <div class="col-2  bg-white  px-0 " style="height: 800px;">
+            <ul class="nav  nav-pills flex-column  style=width: 50%" id="pills-tab">
+                <li class="nav-item d-grid gap-2" role="presentation">
+                    <button class="nav-link active " type="button"  aria-current="page"
+                       id="admin"
+                       data-bs-toggle="pill"
+                       data-bs-target="#multiPage1"
+                       aria-selected="true" role="tab"
+                       aria-controls="multiPage1">Admin</button>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" type="button"
-                       data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="collapseWidthExample2" href="#">User</a>
+                <li class="nav-item d-grid gap-2" role="presentation">
+                    <button class="nav-link" type="button"
+                       id="user1"
+                       data-bs-toggle="pill"
+                       data-bs-target="#multiPage2"
+                       aria-expanded="false" role="tab"
+                       aria-controls="multiPage2" href="#">User</button>
                 </li>
 
 
@@ -46,11 +51,15 @@
             <!-- Content -->
             <!-- основная -->
         </div>
-        <div class="col-xl-10">
+        <div class="tab-content  col-xl-10" id="pills-tabContent">
             <!--навигация admin-->
-            <div class="collapse show multi-collapse " id="multiCollapseExample1">
+            <div class="tab-pane fade show active"
+                 id="multiPage1"
+                 aria-labelledby="admin">
 
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs"
+                    id="myTab"
+                    role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">User table</button>
 
@@ -63,7 +72,7 @@
                     <!--вкладка User Table-->
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
-                            <div class="card-header fw-bold" style="font-size: 35px">Admin panel</div>
+                        <div class="card-header fw-bold" style="font-size: 35px">Admin panel</div>
 
                         <table class="table table-striped">
                             <thead>
@@ -80,8 +89,6 @@
                             </thead>
                             <tbody>
                             <tr th:each="user : ${users}">
-<!--                                <th scope="row" ></th>-->
-
                                 <td th:text="${user.getId()}"></td>
                                 <td th:text="${user.getUsername()}"></td>
                                 <td th:text="${user.getLastName()}"></td>
@@ -94,13 +101,15 @@
                                             class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target="#editModal"
-                                            th:attr="userId=${user.getId()}">
+
+                                            th:attr="userId=${user.id}">
                                         Edit
 
                                     </button>
                                 </td>
                                 <td>
                                     <button type="button"
+                                            id="deleteUserBtn"
                                             class="btn btn-danger"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"
@@ -128,7 +137,7 @@
                                     <input type="text" class="form-control " id="formGroupIdInput1"   placeholder="Id">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
-                                    <label for="formGroupFirstNameInput1">Id</label>
+                                    <label for="formGroupFirstNameInput1">First Name</label>
                                     <input type="text" class="form-control" id="formGroupFirstNameInput1" placeholder="First Name">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
@@ -136,7 +145,7 @@
                                     <input type="text" class="form-control" id="formGroupLastNameInput1" placeholder="Last Name">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
-                                    <label for="formGroupAgeInput1">Last Name</label>
+                                    <label for="formGroupAgeInput1">Age</label>
                                     <input type="text" class="form-control" id="formGroupAgeInput1" placeholder="Age">
                                 </div>
                                 <div class="mb-3 col-4 mx-auto p-1 fw-bold">
@@ -144,8 +153,23 @@
                                     <input type="email" class="form-control" id="exampleInputEmail1" >
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
-                                    <label for="formGroupPasswordInput1">Another label</label>
+                                    <label for="formGroupPasswordInput1">Password</label>
                                     <input type="password" class="form-control" id="formGroupPasswordInput1" placeholder="password">
+                                </div>
+                                <div class="form-group col-4 mx-auto p-1 fw-bold">
+                                    <label for="selectRoles">Autorities</label>
+                                    <select class="form-select"
+                                        id="selectRoles" size="2">
+
+                                        <option th:each="role : ${roles}" th:value="${role.id}"
+                                            th:text="${role.role}"></option>
+                                    </select>
+
+
+                                    <button type="button" class="btn btn-success mt-3" id="addUserBtn">
+                                        Add new
+                                        user
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -154,7 +178,10 @@
 
             </div>
             <!--навигация user-->
-            <div class="collapse multi-collapse " id="multiCollapseExample2">
+            <div class="tab-pane fade"
+                 id="multiPage2"
+                 aria-labelledby="user1"
+                 role="tabpanel">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -194,33 +221,35 @@
             <!-- содержимое модульного  окна-->
             <div class="modal-body">
                 <div class="container text-center ">
-                    <form>
-
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                    <form id="formEdit" onsubmit="editFormSubmit(this)">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
+                            <label for="formGroupIdInput2"  >Id</label>
+                            <input type="text" class="form-control" name="id" readonly id="formGroupIdInput2" >
+                        </div>
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupFirstNameInput2"  >First name</label>
-                            <input type="text" class="form-control"  id="formGroupFirstNameInput2" placeholder="First name">
+                            <input type="text" class="form-control" name="firstName" value="123" id="formGroupFirstNameInput2" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupLastNameInput2">Last name</label>
-                            <input type="text" class="form-control" id="formGroupLastNameInput2" placeholder="Last name">
+                            <input type="text" class="form-control" name="lastName" id="formGroupLastNameInput2" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupAgeInput2">Age</label>
-                            <input type="text" class="form-control" id="formGroupAgeInput2" placeholder="Age">
+                            <input type="text" class="form-control" name="age" id="formGroupAgeInput2" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="InputEmail2" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="InputEmail2" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" name="email" id="InputEmail2" aria-describedby="emailHelp">
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupPasswordInput2">Password</label>
-                            <input type="password" class="form-control" id="formGroupPasswordInput2" placeholder="Another input">
+                            <input type="password" class="form-control" name="password" id="formGroupPasswordInput2" >
                         </div>
                         <br>
                         <select class="form-select" multiple aria-label="пример множественного выбора">
-                            <option selected>Откройте это меню выбора</option>
-                            <option value="1">Один</option>
-                            <option value="2">Два</option>
+                            <option th:each="role : ${roles}" th:value="${role.id}"
+                                    th:text="${role.role}"></option>
                         </select>
                     </form>
                 </div>
@@ -229,7 +258,7 @@
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                 </button>
-                <button type="button" class="btn btn-primary" id="editUserBtnModal">Edit</button>
+                <button type="submit" class="btn btn-primary" id="editUserBtnModal">Edit</button>
 
             </div>
         </div>
@@ -246,36 +275,37 @@
             <!-- содержимое модульного  окна-->
             <div class="modal-body">
                 <div class="container text-center ">
-                    <form>
-                        <div class="form-group  col-4 mx-auto p-1 fs-5">
+                    <form id="formModal">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupIdInput">Id</label>
-                            <input type="text" class="form-control" value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="formGroupIdInput" placeholder="">
+                            <input type="text" name="id" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupIdInput" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupFirstNameInput">First name</label>
-                            <input type="text" class="form-control"  value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="formGroupFirstNameInput" placeholder="First name">
+                            <input type="text" name="username" class="form-control"  value="Ввод здесь только для чтения..."  readonly id="formGroupFirstNameInput" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupLastNameInput">Last name</label>
-                            <input type="text" class="form-control" value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="formGroupLastNameInput" placeholder="Last name">
+                            <input type="text" name="lastname" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupLastNameInput" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupAgeInput">Age</label>
-                            <input type="text" class="form-control" value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="formGroupAgeInput" placeholder="Age">
+                            <input type="text" name="age" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupAgeInput" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="InputEmail1" class="form-label">Email</label>
-                            <input type="email" class="form-control" value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="InputEmail1" aria-describedby="emailHelp">
+                            <input type="email" name="email" class="form-control" value="Ввод здесь только для чтения..."  readonly id="InputEmail1" >
                         </div>
-                        <div class="form-group col-4 mx-auto p-1 fs-5">
+                        <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupExampleInput2">Password</label>
-                            <input type="password" class="form-control" value="Ввод здесь только для чтения..." aria-label="привер ввода только для чтения" readonly id="formGroupExampleInput2" placeholder="Another input">
+                            <input type="password" name="password" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupExampleInput2" >
                         </div>
                         <br>
-                        <select class="form-select" multiple aria-label="пример множественного выбора">
-                            <option selected>Откройте это меню выбора</option>
-                            <option value="1">Один</option>
-                            <option value="2">Два</option>
+                        <select class="form-select" multiple aria-label="пример множественного выбора" size="2" disabled>
+
+                            <option th:each="role : ${roles}" th:value="${role.id}"
+                                    th:text="${role.role}"></option>
+
                         </select>
                     </form>
                 </div>
@@ -288,15 +318,71 @@
 </div>
 
 <!-- End Example Code -->
-</body>
-<script> <!-- edit user-->
-    document.getElementById('editUserBtn').addEventListener('click', function () {
-        const id = document.getElementById("formGroupFirstNameInput2").value
-        const name = document.getElementById('editNameModal').value;
-        const lastName = document.getElementById('editLastNameModal').value;
-        const age = document.getElementById('editAgeModal').value;
-        const email = document.getElementById('editEmailModal').value;
-        const password = document.getElementById('editPasswordModal').value;
-        const roles = Array.from(document.getElementById('editRolesModal').selectedOptions).map(option => option.value);
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="C:\Users\Ранишняя\IdeaProjects\p.p.3.2\src\main\resources\static\first.js"></script>
+<script >
+
+    console.log('11kdjfkldjskl');
+
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function () {
+            const userId = this.getAttribute('userId');
+            console.log("123243 "+ userId.toString());
+
+
+             fetch("http://localhost:8080/admin/user/"+userId)
+                .then(response =>response.json())
+                .then(user => {
+                    // document.getElementById('#formGroupIdInput2').value = user.id;
+                    console.log(user);
+                    let delModal = document.getElementById('formModal');
+                    delModal.id.value=user.id;
+                    delModal.username.value=user.userName;
+                    delModal.lastname.value=user.lastName;
+                    delModal.age.value=user.age;
+                    delModal.email.value=user.email;
+                    delModal.password.value=user.password;
+                    document.getElementById('formGroupIdInput2').value = user.id;
+                    document.getElementById('formGroupFirstNameInput2').value = user.userName;
+                    document.getElementById('formGroupLastNameInput2').value = user.lastName;
+                    document.getElementById('formGroupAgeInput2').value = user.age;
+                    document.getElementById('InputEmail2').value = user.email;
+                    document.getElementById('formGroupPasswordInput2').value = user.password;
+
+            //         document.getElementById('#editNameModal').value = String(user.name);
+            //         document.getElementById('#formGroupFirstNameInput2').value = String(user.lastName);
+            //         document.getElementById('#editAgeModal').placeholder =String(user.age);
+            //         document.getElementById('#editEmailModal').value = String(user.username);
+            //         const deleteRoleModal = document.getElementById('editRoleModal');
+            //         deleteRoleModal.innerHTML = '';
+            //         user.roles.forEach(role => {
+            //             const option = document.createElement('option');
+            //             option.value = role.role;
+            //             option.text = role.role;
+            //             deleteRoleModal.appendChild(option);
+                    });
+                });
+            // document.querySelector('#formGroupIdInput2').value = user.id;
+
+    });
+    // function handleFormSubmit(event) {
+    //     // Просим форму не отправлять данные самостоятельно
+    //     event.preventDefault()
+    //     console.log('Отправка!')
+    // }
+    //
+    // const applicantForm = document.getElementById('deleteUserBtn');
+    // console.log(applicantForm.id)
+    // // applicantForm.getAttribute(user)
+    // // addEventListener('submit', handleFormSubmit)
 </script>
+</body>
 </html>

@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+//@RestController
 @Controller
 
 public class AdminController {
@@ -44,6 +45,14 @@ public class AdminController {
         model.addAttribute("role1", roleService.getListRole());
         return "editUser";
     }
+    @GetMapping(value = "/admin/user/{id}")
+    public ResponseEntity<User> edit(@PathVariable  int id) {
+        User user= new User();
+        if (id > 0) {
+            user = userService.findUserById(id);
+        }
+        return  new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
 
     @PostMapping("/admin/user")
@@ -70,6 +79,7 @@ public class AdminController {
     public String adminka(Model model,  Principal userDetails) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("currentUser",userService.findByUsername(userDetails.getName()).get());
+        model.addAttribute("roles", roleService.getListRole());
         System.out.println(userService.findByUsername(userDetails.getName()).get());
         return "adminpanel";
     }
