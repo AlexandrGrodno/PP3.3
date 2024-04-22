@@ -247,7 +247,7 @@
                             <input type="password" class="form-control" name="password" id="formGroupPasswordInput2" >
                         </div>
                         <br>
-                        <select class="form-select" multiple aria-label="пример множественного выбора">
+                        <select class="form-select" multiple aria-label="пример множественного выбора" name="roles">
                             <option th:each="role : ${roles}" th:value="${role.id}"
                                     th:text="${role.role}"></option>
                         </select>
@@ -333,46 +333,80 @@
     console.log('11kdjfkldjskl');
 
     document.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', function () {
-            const userId = this.getAttribute('userId');
-            console.log("123243 "+ userId.toString());
+        if (button.id == 'editUserBtn') {
+            button.addEventListener('click', function () {
+                console.log("najal knopku");
+                const userId = this.getAttribute('userId');
+                console.log("123243 " + userId.toString());
 
 
-             fetch("http://localhost:8080/admin/user/"+userId)
-                .then(response =>response.json())
-                .then(user => {
-                    // document.getElementById('#formGroupIdInput2').value = user.id;
-                    console.log(user);
-                    let delModal = document.getElementById('formModal');
-                    delModal.id.value=user.id;
-                    delModal.username.value=user.userName;
-                    delModal.lastname.value=user.lastName;
-                    delModal.age.value=user.age;
-                    delModal.email.value=user.email;
-                    delModal.password.value=user.password;
-                    document.getElementById('formGroupIdInput2').value = user.id;
-                    document.getElementById('formGroupFirstNameInput2').value = user.userName;
-                    document.getElementById('formGroupLastNameInput2').value = user.lastName;
-                    document.getElementById('formGroupAgeInput2').value = user.age;
-                    document.getElementById('InputEmail2').value = user.email;
-                    document.getElementById('formGroupPasswordInput2').value = user.password;
+                fetch("http://localhost:8080/admin/user/" + userId)
+                    .then(response => response.json())
+                    .then(user => {
+                        // document.getElementById('#formGroupIdInput2').value = user.id;
+                        console.log(user);
+                        let delModal = document.getElementById('formModal');
+                        delModal.id.value = user.id;
+                        delModal.username.value = user.userName;
+                        delModal.lastname.value = user.lastName;
+                        delModal.age.value = user.age;
+                        delModal.email.value = user.email;
+                        delModal.password.value = user.password;
+                        document.getElementById('formGroupIdInput2').value = user.id;
+                        document.getElementById('formGroupFirstNameInput2').value = user.userName;
+                        document.getElementById('formGroupLastNameInput2').value = user.lastName;
+                        document.getElementById('formGroupAgeInput2').value = user.age;
+                        document.getElementById('InputEmail2').value = user.email;
+                        document.getElementById('formGroupPasswordInput2').value = user.password;
 
-            //         document.getElementById('#editNameModal').value = String(user.name);
-            //         document.getElementById('#formGroupFirstNameInput2').value = String(user.lastName);
-            //         document.getElementById('#editAgeModal').placeholder =String(user.age);
-            //         document.getElementById('#editEmailModal').value = String(user.username);
-            //         const deleteRoleModal = document.getElementById('editRoleModal');
-            //         deleteRoleModal.innerHTML = '';
-            //         user.roles.forEach(role => {
-            //             const option = document.createElement('option');
-            //             option.value = role.role;
-            //             option.text = role.role;
-            //             deleteRoleModal.appendChild(option);
+                        //         document.getElementById('#editNameModal').value = String(user.name);
+                        //         document.getElementById('#formGroupFirstNameInput2').value = String(user.lastName);
+                        //         document.getElementById('#editAgeModal').placeholder =String(user.age);
+                        //         document.getElementById('#editEmailModal').value = String(user.username);
+                        //         const deleteRoleModal = document.getElementById('editRoleModal');
+                        //         deleteRoleModal.innerHTML = '';
+                        //         user.roles.forEach(role => {
+                        //             const option = document.createElement('option');
+                        //             option.value = role.role;
+                        //             option.text = role.role;
+                        //             deleteRoleModal.appendChild(option);
                     });
-                });
+            });
             // document.querySelector('#formGroupIdInput2').value = user.id;
-
+        };
+        if (button.id == 'editUserBtnModal'){
+            button.addEventListener('click', function (){
+                console.log('knopka izmenit');
+                let formEdit = document.forms["formEdit"];
+                let roles = [];
+                console.log(formEdit.lastName.value);
+                console.log('knopka izmenit2');
+                for (let i = 0; i < formEdit.roles.options.length; i++) {
+                     if (formEdit.roles.options[i].selected) {
+                         roles.push(formEdit.roles.options[i].text);}}
+                console.log('knopka izmenit3');
+                fetch("admin/user/" , {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: formEdit.id.value,
+                        userName: formEdit.firstName.value,
+                       lastName: formEdit.lastName.value,
+                        email: formEdit.email.value,
+                        password: formEdit.password.value,
+                        roles: roles
+                    })
+                }).then(() => {
+                    $('#closeEdit').click();
+                // getTableUser()
+                });
+                formEdit.submit;
+            });
+        };
     });
+    // });
     // function handleFormSubmit(event) {
     //     // Просим форму не отправлять данные самостоятельно
     //     event.preventDefault()

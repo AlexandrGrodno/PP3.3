@@ -53,7 +53,11 @@ public class AdminController {
         }
         return  new ResponseEntity<>(user, HttpStatus.OK);
     }
-
+    @PatchMapping("/admin/user")
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user){
+      userService.saveUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/admin/user")
     public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,
