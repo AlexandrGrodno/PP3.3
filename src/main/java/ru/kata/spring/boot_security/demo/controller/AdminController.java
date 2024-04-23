@@ -66,6 +66,13 @@ public class AdminController {
     @PostMapping("/admin/user")
     public ResponseEntity<HttpStatus> addNewUser(@RequestBody User user){
         System.out.println(user);
+        Set<Role> role2 = user.getRoles().stream().map(x->x.getRole().toString())
+                .map(roleService::findRoleByName)
+                .collect(Collectors.toSet());
+
+        user.setRoles(role2);
+        userService.saveUser(user);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
