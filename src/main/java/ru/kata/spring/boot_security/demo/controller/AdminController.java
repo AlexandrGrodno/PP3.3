@@ -48,9 +48,8 @@ public class AdminController {
     @GetMapping(value = "/admin/user/{id}")
     public ResponseEntity<User> edit(@PathVariable  int id) {
         User user= new User();
-        if (id > 0) {
-            user = userService.findUserById(id);
-        }
+        user = userService.findUserById(id);
+
         return  new ResponseEntity<>(user, HttpStatus.OK);
     }
     @PatchMapping("/admin/user")
@@ -94,9 +93,9 @@ public class AdminController {
         return "adminpanel";
     }
 
-    @DeleteMapping(value = "/admin/deleteUser")
-    public String deleteUser(@RequestParam(value = "id") int id) {
+    @DeleteMapping(value = "/admin/user/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable int id) {
         userService.deleteUserById(id);
-        return "redirect:/admin";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

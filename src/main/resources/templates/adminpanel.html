@@ -114,7 +114,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"
 
-                                            th:attr="userId=${user.getId()}">
+                                            th:attr="userId=${user.id}">
                                         Delete
                                     </button>
                                 </td>
@@ -131,30 +131,30 @@
                         </nav>
                         <!-- forma ввода данных нового Usre-->
                         <div class="container text-center ">
-                            <form>
+                            <form id="formNewUser">
                                 <div class="form-group col-4 mx-auto p-2 fw-bold ">
                                     <label for="formGroupIdInput1">Id</label>
-                                    <input type="text" class="form-control " id="formGroupIdInput1"   placeholder="Id">
+                                    <input type="text" class="form-control " id="formGroupIdInput1" readonly  placeholder="Id">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupFirstNameInput1">First Name</label>
-                                    <input type="text" class="form-control" id="formGroupFirstNameInput1" placeholder="First Name">
+                                    <input type="text" class="form-control" name="firstName" id="formGroupFirstNameInput1" placeholder="First Name">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupLastNameInput1">Last Name</label>
-                                    <input type="text" class="form-control" id="formGroupLastNameInput1" placeholder="Last Name">
+                                    <input type="text" class="form-control" name="lastName" id="formGroupLastNameInput1" placeholder="Last Name">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupAgeInput1">Age</label>
-                                    <input type="text" class="form-control" id="formGroupAgeInput1" placeholder="Age">
+                                    <input type="text" class="form-control" name="age" id="formGroupAgeInput1" placeholder="Age">
                                 </div>
                                 <div class="mb-3 col-4 mx-auto p-1 fw-bold">
                                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" >
+                                    <input type="email" class="form-control" name="email" id="exampleInputEmail1" >
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupPasswordInput1">Password</label>
-                                    <input type="password" class="form-control" id="formGroupPasswordInput1" placeholder="password">
+                                    <input type="password" class="form-control" name="password" id="formGroupPasswordInput1" placeholder="password">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="selectRoles">Autorities</label>
@@ -216,7 +216,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                <button type="button" id="closeEdit" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <!-- содержимое модульного  окна-->
             <div class="modal-body">
@@ -256,7 +256,8 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                <button type="button" id="closeDelete" class="btn btn-secondary"
+                        data-dismiss="modal">Close
                 </button>
                 <button type="submit" class="btn btn-primary" id="editUserBtnModal">Edit</button>
 
@@ -270,7 +271,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel2">Заголовок модального окна</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                <button type="button" class="btn-close" id="btnDeleteClose" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
             <!-- содержимое модульного  окна-->
             <div class="modal-body">
@@ -278,7 +279,7 @@
                     <form id="formModal">
                         <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupIdInput">Id</label>
-                            <input type="text" name="id" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupIdInput" >
+                            <input type="text" name="id" class="form-control" value="id" readonly id="formGroupIdInput" >
                         </div>
                         <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupFirstNameInput">First name</label>
@@ -303,15 +304,15 @@
                         <br>
                         <select class="form-select" multiple aria-label="пример множественного выбора" size="2" disabled>
 
-                            <option th:each="role : ${roles}" th:value="${role.id}"
+                            <option th:each="role : ${roles}"
                                     th:text="${role.role}"></option>
 
                         </select>
                     </form>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Сохранить изменения</button>
+            <div class="modal-footer" >
+                <button type="button" class="btn btn-primary" id="btnDelete" >Удалить</button>
             </div>
         </div>
     </div>
@@ -327,19 +328,31 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="..\static\first.js"></script>
+<!--<script src="..\static\first.js"></script>-->
 <script >
 
-    console.log('11kdjfkldjskl');
 
     document.querySelectorAll('button').forEach(button => {
-        if (button.id == 'editUserBtn') {
+        if (button.id == 'btnDelete'){
+            let id = document.getElementById('formGroupIdInput');
+            console.log('pered delete');
             button.addEventListener('click', function () {
-                console.log("najal knopku");
+                console.log("delete " + "  " + id.value);
+                fetch("/admin/user/" + id.value, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(()=> {
+                    $('#btnDeleteClose').click();
+                    location.reload();
+                });
+            })
+        };
+      <!------------------------ -->
+        if ((button.id == 'editUserBtn')|(button.id == 'deleteUserBtn')) {
+            button.addEventListener('click', function () {
                 const userId = this.getAttribute('userId');
-                console.log("123243 " + userId.toString());
-
-
                 fetch("http://localhost:8080/admin/user/" + userId)
                     .then(response => response.json())
                     .then(user => {
@@ -376,11 +389,8 @@
         };
         if (button.id == 'editUserBtnModal'){
             button.addEventListener('click', function (){
-                console.log('knopka izmenit');
                 let formEdit = document.forms["formEdit"];
                 let roles = [];
-                console.log(formEdit.lastName.value);
-                console.log('knopka izmenit2');
                 for (let i = 0; i < formEdit.roles.options.length; i++) {
                      if (formEdit.roles.options[i].selected) {
                          roles.push({
@@ -405,7 +415,7 @@
                     })
                 }).then(() => {
                     $('#closeEdit').click();
-                // getTableUser()
+                    location.reload();
                 });
                 formEdit.submit;
             });
