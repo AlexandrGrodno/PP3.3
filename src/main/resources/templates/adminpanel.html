@@ -327,7 +327,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="C:\Users\Ранишняя\IdeaProjects\p.p.3.2\src\main\resources\static\first.js"></script>
+<script src="..\static\first.js"></script>
 <script >
 
     console.log('11kdjfkldjskl');
@@ -383,7 +383,11 @@
                 console.log('knopka izmenit2');
                 for (let i = 0; i < formEdit.roles.options.length; i++) {
                      if (formEdit.roles.options[i].selected) {
-                         roles.push(formEdit.roles.options[i].text);}}
+                         roles.push({
+                           id: formEdit.roles.options[i].value,
+                           role: formEdit.roles.options[i].text})
+                     }
+                }
                 console.log('knopka izmenit3');
                 fetch("admin/user/" , {
                     method: 'PATCH',
@@ -393,6 +397,7 @@
                     body: JSON.stringify({
                         id: formEdit.id.value,
                         userName: formEdit.firstName.value,
+                        age: formEdit.age.value,
                        lastName: formEdit.lastName.value,
                         email: formEdit.email.value,
                         password: formEdit.password.value,

@@ -55,7 +55,13 @@ public class AdminController {
     }
     @PatchMapping("/admin/user")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody User user){
-      userService.saveUser(user);
+
+        Set<Role> role2 = user.getRoles().stream().map(x->x.getRole().toString())
+                .map(roleService::findRoleByName)
+                .collect(Collectors.toSet());
+
+        user.setRoles(role2);
+        userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
