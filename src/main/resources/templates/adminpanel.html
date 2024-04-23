@@ -134,7 +134,7 @@
                             <form id="formNewUser">
                                 <div class="form-group col-4 mx-auto p-2 fw-bold ">
                                     <label for="formGroupIdInput1">Id</label>
-                                    <input type="text" class="form-control " id="formGroupIdInput1" readonly  placeholder="Id">
+                                    <input type="text" name="id" class="form-control" id="formGroupIdInput1" readonly  placeholder="Id">
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupFirstNameInput1">First Name</label>
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="formGroupAgeInput1">Age</label>
-                                    <input type="text" class="form-control" name="age" id="formGroupAgeInput1" placeholder="Age">
+                                    <input type="number" class="form-control" name="age" id="formGroupAgeInput1" placeholder="Age">
                                 </div>
                                 <div class="mb-3 col-4 mx-auto p-1 fw-bold">
                                     <label for="exampleInputEmail1" class="form-label">Email</label>
@@ -159,7 +159,7 @@
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="selectRoles">Autorities</label>
                                     <select class="form-select"
-                                        id="selectRoles" size="2">
+                                        id="selectRoles" size="2" name="roles"a>
 
                                         <option th:each="role : ${roles}" th:value="${role.id}"
                                             th:text="${role.role}"></option>
@@ -236,7 +236,7 @@
                         </div>
                         <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="formGroupAgeInput2">Age</label>
-                            <input type="text" class="form-control" name="age" id="formGroupAgeInput2" >
+                            <input type="number" class="form-control" name="age" id="formGroupAgeInput2" >
                         </div>
                         <div class="form-group col-4 mx-auto p-1 fw-bold">
                             <label for="InputEmail2" class="form-label">Email</label>
@@ -333,6 +333,37 @@
 
 
     document.querySelectorAll('button').forEach(button => {
+        if (button.id == 'addUserBtn'){
+            button.addEventListener('click', function () {
+          let add = document.forms['formNewUser'];
+            let roles = [];
+            console.log("add11")
+            for (let i = 0; i < add.roles.options.length; i++) {
+                if (add.roles.options[i].selected) {
+                    roles.push({
+                        id: add.roles.options[i].value,
+                        role: add.roles.options[i].text})
+                }
+            }
+            console.log('feth1')
+            fetch("admin/user/" , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: add.id.value,
+                    userName: add.firstName.value,
+                    age: add.age.value,
+                    lastName: add.lastName.value,
+                    email: add.email.value,
+                    password: add.password.value,
+                    roles: roles
+                })
+            })
+                // .then(() =>location.reload());
+            })
+        };
         if (button.id == 'btnDelete'){
             let id = document.getElementById('formGroupIdInput');
             console.log('pered delete');

@@ -63,8 +63,13 @@ public class AdminController {
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
     @PostMapping("/admin/user")
+    public ResponseEntity<HttpStatus> addNewUser(@RequestBody User user){
+        System.out.println(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/admin/userold")
     public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,
                            @RequestParam(value = "roles", defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
 
@@ -83,6 +88,7 @@ public class AdminController {
         userService.saveUser(user);
         return "redirect:/admin";
     }
+
 
     @GetMapping(value = "/admin")
     public String adminka(Model model,  Principal userDetails) {
