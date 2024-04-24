@@ -30,8 +30,8 @@ public class UserServiceimpl implements UserService {
         return Optional.ofNullable(userDAO.getUserByName(username));
     }
     @Override
-    public User findByEmail(String email) {
-        return userDAO.getUserByEmail(email);
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userDAO.getUserByEmail(email));
     }
 
     @Override

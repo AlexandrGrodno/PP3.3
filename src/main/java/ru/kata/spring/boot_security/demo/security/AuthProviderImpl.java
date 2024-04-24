@@ -30,7 +30,7 @@ public class AuthProviderImpl implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
-//        User user = userService.findByEmail(name);
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         String password = authentication.getCredentials().toString();
         if (!password.equals(userDetails.getPassword())) {

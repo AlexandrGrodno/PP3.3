@@ -25,13 +25,12 @@ public class User implements UserDetails {
     private int id;
 
 
-    @Size(min = 2, max = 15, message = "Введите правильное имя")
+    @NotEmpty(message = "Введите userName")
     @Column(name = "username")
     private String userName;
 
     @Column(name = "lastname")
     @NotEmpty(message = "Введите lastName")
-    @Size(min = 2, max = 15, message = "Введите правильное имя")
     private String lastName;
 
 
@@ -42,7 +41,6 @@ public class User implements UserDetails {
 
     @Column(name = "age")
     @Min(value = 0, message = "возраст нее может меньше  0")
-    @Max(value = 120, message = "возраст нее может больше  120 :)), но это не точно..")
     private int age;
 
     @Column

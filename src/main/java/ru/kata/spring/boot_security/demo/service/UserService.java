@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface UserService {
     List<User> findAll();
 
+    Optional<User> findByEmail(String email);
     Optional<User> findByUsername(String username);
 
     User findUserById(int id);
@@ -15,5 +16,5 @@ public interface UserService {
     void saveUser(User user);
 
     boolean deleteUserById(int id);
-    User findByEmail(String email);
+//    User findByEmail(String email);
 }
