@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        if (user.getPassword().indexOf("$2a$10$") != 0 ) user.setPassword(passwordEncoder().encode(user.getPassword()));
         em.merge(user);
     }
 

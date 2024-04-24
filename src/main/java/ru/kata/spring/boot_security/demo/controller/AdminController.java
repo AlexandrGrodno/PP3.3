@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -53,25 +54,16 @@ public class AdminController {
         return  new ResponseEntity<>(user, HttpStatus.OK);
     }
     @PatchMapping("/admin/user")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user){
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO userDTO){
 
-        Set<Role> role2 = user.getRoles().stream().map(x->x.getRole().toString())
-                .map(roleService::findRoleByName)
-                .collect(Collectors.toSet());
 
-        user.setRoles(role2);
-        userService.saveUser(user);
+        userService.saveUser(userMapper(userDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/admin/user")
-    public ResponseEntity<HttpStatus> addNewUser(@RequestBody User user){
-        System.out.println(user);
-        Set<Role> role2 = user.getRoles().stream().map(x->x.getRole().toString())
-                .map(roleService::findRoleByName)
-                .collect(Collectors.toSet());
+    public ResponseEntity<HttpStatus> addNewUser(@RequestBody UserDTO userDTO){
 
-        user.setRoles(role2);
-        userService.saveUser(user);
+        userService.saveUser(userMapper(userDTO));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -110,5 +102,20 @@ public class AdminController {
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable int id) {
         userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    private User userMapper(UserDTO userDTO){
+        Set<Role> role2 = userDTO.getRoles().stream().map(x->x.getRole().toString())
+                .map(roleService::findRoleByName)
+                .collect(Collectors.toSet());
+        User user= new User();
+        user.setId(userDTO.getId());
+        user.setRoles(role2);
+        user.setUserName(userDTO.getUserName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setAge(userDTO.getAge());
+        user.setPassword(userDTO.getPassword());
+
+        return user;
     }
 }
