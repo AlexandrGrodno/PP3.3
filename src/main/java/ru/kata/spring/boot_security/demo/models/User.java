@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private String userName;
 
     @Column(name = "lastname")
-    @NotEmpty(message = "Введите lastName")
+//    @NotEmpty(message = "Введите lastName")
     private String lastName;
 
 

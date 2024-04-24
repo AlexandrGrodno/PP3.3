@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-//@RestController
+
 @Controller
 
 public class AdminController {
@@ -48,10 +48,8 @@ public class AdminController {
     }
     @GetMapping(value = "/admin/user/{id}")
     public ResponseEntity<User> edit(@PathVariable  int id) {
-        User user= new User();
-        user = userService.findUserById(id);
 
-        return  new ResponseEntity<>(user, HttpStatus.OK);
+        return  new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
     @PatchMapping("/admin/user")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO userDTO){
