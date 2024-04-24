@@ -15,4 +15,5 @@ public interface UserService {
     void saveUser(User user);
 
     boolean deleteUserById(int id);
+    User findByEmail(String email);
 }

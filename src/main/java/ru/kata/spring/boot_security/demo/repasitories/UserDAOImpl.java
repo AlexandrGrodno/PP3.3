@@ -52,4 +52,11 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUser(int id) {
         em.remove(getUser(id));
     }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Query query = em.createQuery("Select u from User u left join fetch u.roles where u.email=:email");
+        query.setParameter("email", email);
+        return (User) query.getSingleResult();
+    }
 }

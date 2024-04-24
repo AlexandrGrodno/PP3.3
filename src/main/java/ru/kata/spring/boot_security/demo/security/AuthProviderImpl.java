@@ -10,22 +10,27 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.models.User;
 
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
 
     private UserDetailsService userDetailsService;
+    private UserService userService;
 
     @Autowired
-    public AuthProviderImpl(UserDetailsServiceImpl userDetailsService) {
+    public AuthProviderImpl(UserDetailsServiceImpl userDetailsService, UserService userService) {
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
+//        User user = userService.findByEmail(name);
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         String password = authentication.getCredentials().toString();
         if (!password.equals(userDetails.getPassword())) {

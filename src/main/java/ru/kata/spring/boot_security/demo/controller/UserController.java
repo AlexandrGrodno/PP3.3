@@ -30,9 +30,10 @@ public class UserController {
 
     @GetMapping(value = "/user")
     public String showUser(Model model, Principal userDetails) {
+        System.out.println(userDetails);
         User user = userService.findByUsername(userDetails.getName()).get();
         model.addAttribute("users", user);
-        return "user";
+        return "userpanel";
     }
 
     @GetMapping(value = "/index")
