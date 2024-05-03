@@ -94,7 +94,13 @@ public class AdminController {
         model.addAttribute("roles", roleService.getListRole());
         System.out.println(userService.findByUsername(userDetails.getName()).get());
         return "adminpanel";
-    }
+     }
+
+     @GetMapping(value = "/adminn")
+     public ResponseEntity<List<User>> getAllUser(){
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+     }
+
 
     @DeleteMapping(value = "/admin/user/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable int id) {
