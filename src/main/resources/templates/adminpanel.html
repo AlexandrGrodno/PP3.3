@@ -405,22 +405,22 @@
             })
         };
         <!--                    -->
-        if (button.id == 'editUserBtn'){
-            button.addEventListener('click', function () {
-                console.log("нажата")
-                const userId = this.getAttribute('userId');
-                fetch("http://localhost:8080/admin/user/" + userId)
-                    .then(response => response.json())
-                    .then(user => {
-                        document.getElementById('formGroupIdInput2').value = user.id;
-                        document.getElementById('formGroupFirstNameInput2').value = user.userName;
-                        document.getElementById('formGroupLastNameInput2').value = user.lastName;
-                        document.getElementById('formGroupAgeInput2').value = user.age;
-                        document.getElementById('InputEmail2').value = user.email;
-                        document.getElementById('formGroupPasswordInput2').value = user.password;
-                    });
-            })
-        }
+        // if (button.id == 'editUserBtn'){
+        //     button.addEventListener('click', function () {
+        //         console.log("нажата")
+        //         const userId = this.getAttribute('userId');
+        //         fetch("http://localhost:8080/admin/user/" + userId)
+        //             .then(response => response.json())
+        //             .then(user => {
+        //                 document.getElementById('formGroupIdInput2').value = user.id;
+        //                 document.getElementById('formGroupFirstNameInput2').value = user.userName;
+        //                 document.getElementById('formGroupLastNameInput2').value = user.lastName;
+        //                 document.getElementById('formGroupAgeInput2').value = user.age;
+        //                 document.getElementById('InputEmail2').value = user.email;
+        //                 document.getElementById('formGroupPasswordInput2').value = user.password;
+        //             });
+        //     })
+        // }
 
       <!------------------------ -->
         if (button.id == 'deleteUserBtn') {
