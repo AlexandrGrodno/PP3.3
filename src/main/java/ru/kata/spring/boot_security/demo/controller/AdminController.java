@@ -16,6 +16,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,9 +48,12 @@ public class AdminController {
         return "editUser";
     }
     @GetMapping(value = "/admin/user/{id}")
-    public ResponseEntity<User> edit(@PathVariable  int id) {
+    public ResponseEntity<UserDTO> edit(@PathVariable  int id, Principal userDetails) {
 
-        return  new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
+        UserDTO userDTO= new UserDTO();
+        userDTO = id < 1 ? userDTOMapper(userService.findByUsername(userDetails.getName()).get()) : userDTOMapper(userService.findUserById(id));
+
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
     @PatchMapping("/admin/user")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO userDTO){
@@ -97,8 +101,8 @@ public class AdminController {
      }
 
      @GetMapping(value = "/adminn")
-     public ResponseEntity<List<User>> getAllUser(){
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+     public ResponseEntity<List<UserDTO>> getAllUser(){
+        return new ResponseEntity<>(userService.findAll().stream().map(x->userDTOMapper(x)).collect(Collectors.toList()), HttpStatus.OK);
      }
 
 
@@ -121,5 +125,24 @@ public class AdminController {
         user.setPassword(userDTO.getPassword());
 
         return user;
+    }
+    private UserDTO userDTOMapper(User user){
+
+        String role2 = user.getRoles().stream().map((Objects::toString)).collect(Collectors.joining(" ")).replace("ROLE_"," ");
+//        map(x->x.getRole().toString());
+//
+//                .map(roleService::findRoleByName)
+//                .collect(Collectors.toSet());
+        UserDTO userDTO= new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setRoles(user.getRoles());
+        userDTO.setUserName(user.getUserName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setAge(user.getAge());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setRole(role2);
+
+        return userDTO;
     }
 }

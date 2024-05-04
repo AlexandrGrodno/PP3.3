@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-dark bg-dark">
 
-        <div class="text-white" style="font-size: 30px" th:text="${currentUser.getEmail()}+' with roles: '+${currentUser.authorities}">!</div>
+        <div class="text-white" id="nav" style="font-size: 30px" th:text="${currentUser.getEmail()}+' with roles: '+${currentUser.authorities}">!</div>
         <form th:action="@{/logout}" method="post">
             <button class="btn  text-white" type="submit">Logout</button>
         </form>
@@ -74,7 +74,8 @@
 
                         <div class="card-header fw-bold" style="font-size: 35px">Admin panel</div>
 
-                        <table class="table table-striped">
+                        <table class="table table-striped"
+                        id="allUser">
                             <thead>
                             <tr>
                                 <th>Id</th>
@@ -87,38 +88,39 @@
                                 <th>Delete</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.getId()}"></td>
-                                <td th:text="${user.getUsername()}"></td>
-                                <td th:text="${user.getLastName()}"></td>
-                                <td th:text="${user.getAge()}"></td>
-                                <td th:text="${user.getEmail()}"></td>
-                                <td th:text="${user.getAuthorities()}"></td>
-                                <td>
-                                    <button type="button"
-                                            id="editUserBtn"
-                                            class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editModal"
+                            <tbody id="users-table">
+<!--                            <tr th:each="user : ${users}">-->
+<!--                                <td th:text="${user.getId()}"></td>-->
+<!--                                <td th:text="${user.getUsername()}"></td>-->
+<!--                                <td th:text="${user.getLastName()}"></td>-->
+<!--                                <td th:text="${user.getAge()}"></td>-->
+<!--                                <td th:text="${user.getEmail()}"></td>-->
+<!--                                <td th:text="${user.getAuthorities()}"></td>-->
+<!--                                <td>-->
+<!--                                    <button type="button"-->
+<!--                                            name="edit"-->
+<!--                                            id="editUserBtn"-->
+<!--                                            class="btn btn-primary"-->
+<!--                                            data-bs-toggle="modal"-->
+<!--                                            data-bs-target="#editModal"-->
 
-                                            th:attr="userId=${user.id}">
-                                        Edit
+<!--                                            th:attr="userId=${user.id}">-->
+<!--                                        Edit-->
 
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button"
-                                            id="deleteUserBtn"
-                                            class="btn btn-danger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal"
+<!--                                    </button>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <button type="button"-->
+<!--                                            id="deleteUserBtn"-->
+<!--                                            class="btn btn-danger"-->
+<!--                                            data-bs-toggle="modal"-->
+<!--                                            data-bs-target="#deleteModal"-->
 
-                                            th:attr="userId=${user.id}">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
+<!--                                            th:attr="userId=${user.id}">-->
+<!--                                        Delete-->
+<!--                                    </button>-->
+<!--                                </td>-->
+<!--                            </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -182,7 +184,8 @@
                  id="multiPage2"
                  aria-labelledby="user1"
                  role="tabpanel">
-                <table class="table table-striped">
+                <table class="table table-striped"
+                       >
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -193,15 +196,15 @@
                         <th>Role</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="${currentUser.getId()}">id</td>
-                        <td th:text="${currentUser.getUsername()}">name</td>
-                        <td th:text="${currentUser.getLastName()}">lastname</td>
-                        <td th:text="${currentUser.getAge()}">age</td>
-                        <td th:text="${currentUser.getEmail()}">email</td>
-                        <td th:text="${currentUser.getAuthorities()}">autorities</td>
-                    </tr>
+                    <tbody id="current table">
+<!--                    <tr>-->
+<!--                        <td th:text="${currentUser.getId()}">id</td>-->
+<!--                        <td th:text="${currentUser.getUsername()}">name</td>-->
+<!--                        <td th:text="${currentUser.getLastName()}">lastname</td>-->
+<!--                        <td th:text="${currentUser.getAge()}">age</td>-->
+<!--                        <td th:text="${currentUser.getEmail()}">email</td>-->
+<!--                        <td th:text="${currentUser.getAuthorities()}">autorities</td>-->
+<!--                    </tr>-->
                     </tbody>
                 </table>
             </div>
@@ -319,7 +322,6 @@
 </div>
 
 <!-- End Example Code -->
-<script  src="/info.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -329,26 +331,38 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
-
+<script src="\info.js"></script>
 <script >
-function  currentUser(id) {
-    fetch("http://localhost:8080/admin/user/" + id)
-        .then(response => response.json())
-        .then(user => {
-            console.log(user);
-            console.log("0000000")
-        return user;
-        });
-    return user;
-}
+
+    let buttons = document.getElementsByName('edit');
+     buttons.forEach(button=>{
+         console.log("нашел");
+         if (button.id == 'editUserBtn'){
+             button.addEventListener('click', function () {
+                 console.log("нажата1")
+                 const userId = this.getAttribute('userId');
+                 fetch("http://localhost:8080/admin/user/" + userId)
+                     .then(response => response.json())
+                     .then(user => {
+                         document.getElementById('formGroupIdInput2').value = user.id;
+                         document.getElementById('formGroupFirstNameInput2').value = user.userName;
+                         document.getElementById('formGroupLastNameInput2').value = user.lastName;
+                         document.getElementById('formGroupAgeInput2').value = user.age;
+                         document.getElementById('InputEmail2').value = user.email;
+                         document.getElementById('formGroupPasswordInput2').value = user.password;
+                     });
+             })
+         }
+     });
+
 
     document.querySelectorAll('button').forEach(button => {
+        console.log('query');
         if (button.id == 'addUserBtn'){
             button.addEventListener('click', function () {
           let add = document.forms['formNewUser'];
             let roles = [];
-            console.log("add11")
+            console.log("adduser")
             for (let i = 0; i < add.roles.options.length; i++) {
                 if (add.roles.options[i].selected) {
                     roles.push({
@@ -371,7 +385,7 @@ function  currentUser(id) {
                     password: add.password.value,
                     roles: roles
                 })
-            }).then(() =>location.reload());
+            }).then(() =>creatTable());
             })
         };
         if (button.id == 'btnDelete'){
@@ -390,16 +404,36 @@ function  currentUser(id) {
                 });
             })
         };
-      <!------------------------ -->
-        if ((button.id == 'editUserBtn')|(button.id == 'deleteUserBtn')) {
+        <!--                    -->
+        if (button.id == 'editUserBtn'){
             button.addEventListener('click', function () {
+                console.log("нажата")
                 const userId = this.getAttribute('userId');
-                // fetch("http://localhost:8080/admin/user/" + userId)
-                //     .then(response => response.json())
-                //     .then(user => {
+                fetch("http://localhost:8080/admin/user/" + userId)
+                    .then(response => response.json())
+                    .then(user => {
+                        document.getElementById('formGroupIdInput2').value = user.id;
+                        document.getElementById('formGroupFirstNameInput2').value = user.userName;
+                        document.getElementById('formGroupLastNameInput2').value = user.lastName;
+                        document.getElementById('formGroupAgeInput2').value = user.age;
+                        document.getElementById('InputEmail2').value = user.email;
+                        document.getElementById('formGroupPasswordInput2').value = user.password;
+                    });
+            })
+        }
+
+      <!------------------------ -->
+        if (button.id == 'deleteUserBtn') {
+            button.addEventListener('click', function () {
+                console.log("нажата")
+                const userId = this.getAttribute('userId');
+                // let id = button.attr('data-userid');
+                console.log(userId );
+                fetch("http://localhost:8080/admin/user/" + userId)
+                    .then(response => response.json())
+                    .then(user => {
                         // document.getElementById('#formGroupIdInput2').value = user.id;
-                        var user = currentUser(userId);
-                        console.log('1111111111');
+                        console.log(user);
                         let delModal = document.getElementById('formModal');
                         delModal.id.value = user.id;
                         delModal.username.value = user.userName;
@@ -407,14 +441,25 @@ function  currentUser(id) {
                         delModal.age.value = user.age;
                         delModal.email.value = user.email;
                         delModal.password.value = user.password;
-                        document.getElementById('formGroupIdInput2').value = user.id;
-                        document.getElementById('formGroupFirstNameInput2').value = user.userName;
-                        document.getElementById('formGroupLastNameInput2').value = user.lastName;
-                        document.getElementById('formGroupAgeInput2').value = user.age;
-                        document.getElementById('InputEmail2').value = user.email;
-                        document.getElementById('formGroupPasswordInput2').value = user.password;
+                        // document.getElementById('formGroupIdInput2').value = user.id;
+                        // document.getElementById('formGroupFirstNameInput2').value = user.userName;
+                        // document.getElementById('formGroupLastNameInput2').value = user.lastName;
+                        // document.getElementById('formGroupAgeInput2').value = user.age;
+                        // document.getElementById('InputEmail2').value = user.email;
+                        // document.getElementById('formGroupPasswordInput2').value = user.password;
 
-
+                        //         document.getElementById('#editNameModal').value = String(user.name);
+                        //         document.getElementById('#formGroupFirstNameInput2').value = String(user.lastName);
+                        //         document.getElementById('#editAgeModal').placeholder =String(user.age);
+                        //         document.getElementById('#editEmailModal').value = String(user.username);
+                        //         const deleteRoleModal = document.getElementById('editRoleModal');
+                        //         deleteRoleModal.innerHTML = '';
+                        //         user.roles.forEach(role => {
+                        //             const option = document.createElement('option');
+                        //             option.value = role.role;
+                        //             option.text = role.role;
+                        //             deleteRoleModal.appendChild(option);
+                    });
             });
             // document.querySelector('#formGroupIdInput2').value = user.id;
         };
