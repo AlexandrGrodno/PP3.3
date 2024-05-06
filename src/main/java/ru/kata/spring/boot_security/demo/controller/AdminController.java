@@ -55,6 +55,12 @@ public class AdminController {
 
         return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
+
+    @GetMapping(value = "/admin/role")
+    public ResponseEntity<List<Role>> getAllRoles() {
+
+       return new ResponseEntity<>(roleService.getListRole(),HttpStatus.OK);
+    }
     @PatchMapping("/admin/user")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDTO userDTO){
 
@@ -69,6 +75,7 @@ public class AdminController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 //    @PostMapping("/admin/userold")
 //    public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,

@@ -1,6 +1,7 @@
 
 currentUser();
 creatTable();
+setRoles('selectRoles')
 
 
 
@@ -38,10 +39,38 @@ function buttonEdit(id){
             document.getElementById('formGroupAgeInput2').value = user.age;
             document.getElementById('InputEmail2').value = user.email;
             document.getElementById('formGroupPasswordInput2').value = user.password;
-           let role = document.getElementById('formEdit').options;
-           role.roles.options.text=user.roles;
+           // let role = document.getElementById('editRoles');
+           // // role.textContent="1111";
+           // // role.value="1";
+           //  let rol=document.createElement('option');
+           //  rol.textContent=1111;
+           //  rol.value='1';
+           //  role.appendChild(rol);
+           //  rol=document.createElement('option');
+           // rol.textContent=2222;
+           // rol.value='2';
+           // role.appendChild(rol);
+        });
+    setRoles('editRoles');
+}
+function  setRoles(forma) {
+    console.log('запрос ролей форма : '+forma);
+    let option = document.getElementById(forma);
+    option.innerHTML='';
+    fetch("http://localhost:8080/admin/role/")
+        .then(response => response.json())
+        .then(roles => {
+            roles.forEach(function (role) {
+                // let option = document.getElementById(forma);
+                let row = document.createElement('option');
+                row.textContent = role.role.slice(5);
+                row.value = role.id;
+                option.appendChild(row);
+            })
         });
 }
+
+
 
 function buttonDelete(id){
     console.log("нажата")
@@ -59,6 +88,8 @@ function buttonDelete(id){
             delModal.password.value = user.password;
 
         });
+    setRoles('deleteForma');
+
 }
 function creatTable(){
     let table = document.getElementById('allUser');
@@ -68,8 +99,6 @@ function creatTable(){
         .then(users => {
             users.forEach(function (user){
                 console.log(user);
-
-
                 row+=`<tr>
                             
                             <td> ${user.id}</td>

@@ -161,7 +161,7 @@
                                 <div class="form-group col-4 mx-auto p-1 fw-bold">
                                     <label for="selectRoles">Autorities</label>
                                     <select class="form-select"
-                                        id="selectRoles" size="2" name="roles"a>
+                                        id="selectRoles" size="2" name="roles" >
 
                                         <option
 <!--                                                th:each="role : ${roles}" th:value="${role.id}"-->
@@ -253,9 +253,9 @@
                         </div>
                         <br>
                         <select class="form-select" multiple aria-label="пример множественного выбора" name="roles" id="editRoles">
-                            <option>
-<!--                                    th:each="role : ${roles}" th:value="${role.id}"-->
-<!--                                    th:text="${role.role}"-->
+                            <option id="editRoles1"
+                                    th:each="role : ${roles}" th:value="${role.id}"
+                                    th:text="${role.role}">
                             </option>
                         </select>
                     </form>
@@ -309,12 +309,8 @@
                             <input type="password" name="password" class="form-control" value="Ввод здесь только для чтения..."  readonly id="formGroupExampleInput2" >
                         </div>
                         <br>
-                        <select class="form-select" multiple aria-label="пример множественного выбора" size="2" disabled>
+                        <select class="form-select" multiple aria-label="пример множественного выбора" size="2" disabled id="deleteForma">
 
-                            <option
-<!--                                    th:each="role : ${roles}"-->
-<!--                                    th:text="${role.role}"-->
-                            ></option>
 
                         </select>
                     </form>
@@ -392,7 +388,9 @@
                     roles: roles
                 })
             }).then(() =>creatTable());
+                document.getElementById('formNewUser').reset();
             })
+
         };
         if (button.id == 'btnDelete'){
             let id = document.getElementById('formGroupIdInput');
