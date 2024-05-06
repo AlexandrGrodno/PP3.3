@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-dark bg-dark">
 
-        <div class="text-white" id="nav" style="font-size: 30px" th:text="${currentUser.getEmail()}+' with roles: '+${currentUser.authorities}">!</div>
+        <div class="text-white" id="nav" style="font-size: 30px" >!</div>
         <form th:action="@{/logout}" method="post">
             <button class="btn  text-white" type="submit">Logout</button>
         </form>
@@ -163,8 +163,10 @@
                                     <select class="form-select"
                                         id="selectRoles" size="2" name="roles"a>
 
-                                        <option th:each="role : ${roles}" th:value="${role.id}"
-                                            th:text="${role.role}"></option>
+                                        <option
+<!--                                                th:each="role : ${roles}" th:value="${role.id}"-->
+<!--                                            th:text="${role.role}"-->
+                                        ></option>
                                     </select>
 
 
@@ -250,9 +252,11 @@
                             <input type="password" class="form-control" name="password" id="formGroupPasswordInput2" >
                         </div>
                         <br>
-                        <select class="form-select" multiple aria-label="пример множественного выбора" name="roles">
-                            <option th:each="role : ${roles}" th:value="${role.id}"
-                                    th:text="${role.role}"></option>
+                        <select class="form-select" multiple aria-label="пример множественного выбора" name="roles" id="editRoles">
+                            <option>
+<!--                                    th:each="role : ${roles}" th:value="${role.id}"-->
+<!--                                    th:text="${role.role}"-->
+                            </option>
                         </select>
                     </form>
                 </div>
@@ -307,8 +311,10 @@
                         <br>
                         <select class="form-select" multiple aria-label="пример множественного выбора" size="2" disabled>
 
-                            <option th:each="role : ${roles}"
-                                    th:text="${role.role}"></option>
+                            <option
+<!--                                    th:each="role : ${roles}"-->
+<!--                                    th:text="${role.role}"-->
+                            ></option>
 
                         </select>
                     </form>
@@ -400,29 +406,11 @@
                     }
                 }).then(()=> {
                     $('#btnDeleteClose').click();
-                    location.reload();
+                    creatTable();
                 });
             })
         };
-        <!--                    -->
-        // if (button.id == 'editUserBtn'){
-        //     button.addEventListener('click', function () {
-        //         console.log("нажата")
-        //         const userId = this.getAttribute('userId');
-        //         fetch("http://localhost:8080/admin/user/" + userId)
-        //             .then(response => response.json())
-        //             .then(user => {
-        //                 document.getElementById('formGroupIdInput2').value = user.id;
-        //                 document.getElementById('formGroupFirstNameInput2').value = user.userName;
-        //                 document.getElementById('formGroupLastNameInput2').value = user.lastName;
-        //                 document.getElementById('formGroupAgeInput2').value = user.age;
-        //                 document.getElementById('InputEmail2').value = user.email;
-        //                 document.getElementById('formGroupPasswordInput2').value = user.password;
-        //             });
-        //     })
-        // }
 
-      <!------------------------ -->
         if (button.id == 'deleteUserBtn') {
             button.addEventListener('click', function () {
                 console.log("нажата")
@@ -441,27 +429,10 @@
                         delModal.age.value = user.age;
                         delModal.email.value = user.email;
                         delModal.password.value = user.password;
-                        // document.getElementById('formGroupIdInput2').value = user.id;
-                        // document.getElementById('formGroupFirstNameInput2').value = user.userName;
-                        // document.getElementById('formGroupLastNameInput2').value = user.lastName;
-                        // document.getElementById('formGroupAgeInput2').value = user.age;
-                        // document.getElementById('InputEmail2').value = user.email;
-                        // document.getElementById('formGroupPasswordInput2').value = user.password;
 
-                        //         document.getElementById('#editNameModal').value = String(user.name);
-                        //         document.getElementById('#formGroupFirstNameInput2').value = String(user.lastName);
-                        //         document.getElementById('#editAgeModal').placeholder =String(user.age);
-                        //         document.getElementById('#editEmailModal').value = String(user.username);
-                        //         const deleteRoleModal = document.getElementById('editRoleModal');
-                        //         deleteRoleModal.innerHTML = '';
-                        //         user.roles.forEach(role => {
-                        //             const option = document.createElement('option');
-                        //             option.value = role.role;
-                        //             option.text = role.role;
-                        //             deleteRoleModal.appendChild(option);
                     });
             });
-            // document.querySelector('#formGroupIdInput2').value = user.id;
+
         };
         if (button.id == 'editUserBtnModal'){
             button.addEventListener('click', function (){

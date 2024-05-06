@@ -38,6 +38,8 @@ function buttonEdit(id){
             document.getElementById('formGroupAgeInput2').value = user.age;
             document.getElementById('InputEmail2').value = user.email;
             document.getElementById('formGroupPasswordInput2').value = user.password;
+           let role = document.getElementById('formEdit').options;
+           role.roles.options.text=user.roles;
         });
 }
 

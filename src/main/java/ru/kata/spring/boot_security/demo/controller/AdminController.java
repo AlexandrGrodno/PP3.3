@@ -32,21 +32,21 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping(value = "/admin/addUser")
-    public String addUser(Model model) {
-        model.addAttribute("users", new User());
-        model.addAttribute("role1", roleService.getListRole());
-        return "editUser";
-    }
+//    @GetMapping(value = "/admin/addUser")
+//    public String addUser(Model model) {
+//        model.addAttribute("users", new User());
+//        model.addAttribute("role1", roleService.getListRole());
+//        return "editUser";
+//    }
 
-    @GetMapping(value = "/admin/user/id")
-    public String editUser(@RequestParam(value = "id", defaultValue = "0") int id, Model model) {
-        if (id > 0) {
-            model.addAttribute("users", userService.findUserById(id));
-        }
-        model.addAttribute("role1", roleService.getListRole());
-        return "editUser";
-    }
+//    @GetMapping(value = "/admin/user/id")
+//    public String editUser(@RequestParam(value = "id", defaultValue = "0") int id, Model model) {
+//        if (id > 0) {
+//            model.addAttribute("users", userService.findUserById(id));
+//        }
+//        model.addAttribute("role1", roleService.getListRole());
+//        return "editUser";
+//    }
     @GetMapping(value = "/admin/user/{id}")
     public ResponseEntity<UserDTO> edit(@PathVariable  int id, Principal userDetails) {
 
@@ -70,35 +70,35 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/admin/userold")
-    public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,
-                           @RequestParam(value = "roles", defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
+//    @PostMapping("/admin/userold")
+//    public String saveUser(@Validated @ModelAttribute("users") User user, BindingResult bindingResult,
+//                           @RequestParam(value = "roles", defaultValue = "ROLE_USER") List<String> roleNames, Model model) {
+//
+//        if (bindingResult.hasFieldErrors("username")
+//                || (bindingResult.hasFieldErrors("lastnName"))
+//                || (bindingResult.hasFieldErrors("password"))
+//                || (bindingResult.hasFieldErrors("age"))) {
+//            model.addAttribute("role1", roleService.getListRole());
+//            return "editUser";
+//        }
+//        Set<Role> role2 = roleNames.stream()
+//                .map(roleService::findRoleByName)
+//                .collect(Collectors.toSet());
+//
+//        user.setRoles(role2);
+//        userService.saveUser(user);
+//        return "redirect:/admin";
+//    }
 
-        if (bindingResult.hasFieldErrors("username")
-                || (bindingResult.hasFieldErrors("lastnName"))
-                || (bindingResult.hasFieldErrors("password"))
-                || (bindingResult.hasFieldErrors("age"))) {
-            model.addAttribute("role1", roleService.getListRole());
-            return "editUser";
-        }
-        Set<Role> role2 = roleNames.stream()
-                .map(roleService::findRoleByName)
-                .collect(Collectors.toSet());
 
-        user.setRoles(role2);
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }
-
-
-    @GetMapping(value = "/admin")
-    public String adminka(Model model,  Principal userDetails) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("currentUser",userService.findByUsername(userDetails.getName()).get());
-        model.addAttribute("roles", roleService.getListRole());
-        System.out.println(userService.findByUsername(userDetails.getName()).get());
-        return "adminpanel";
-     }
+//    @GetMapping(value = "/admin")
+//    public String adminka(Model model,  Principal userDetails) {
+//        model.addAttribute("users", userService.findAll());
+//        model.addAttribute("currentUser",userService.findByUsername(userDetails.getName()).get());
+//        model.addAttribute("roles", roleService.getListRole());
+//        System.out.println(userService.findByUsername(userDetails.getName()).get());
+//        return "adminpanel";
+//     }
 
      @GetMapping(value = "/adminn")
      public ResponseEntity<List<UserDTO>> getAllUser(){
