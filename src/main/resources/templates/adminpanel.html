@@ -293,10 +293,8 @@
 
     let buttons = document.getElementsByName('edit');
      buttons.forEach(button=>{
-         console.log("нашел");
          if (button.id == 'editUserBtn'){
              button.addEventListener('click', function () {
-                 console.log("нажата1")
                  const userId = this.getAttribute('userId');
                  fetch("http://localhost:8080/admin/user/" + userId)
                      .then(response => response.json())
@@ -314,12 +312,10 @@
 
 
     document.querySelectorAll('button').forEach(button => {
-        console.log('query');
         if (button.id == 'addUserBtn'){
             button.addEventListener('click', function () {
           let add = document.forms['formNewUser'];
             let roles = [];
-            console.log("adduser")
             for (let i = 0; i < add.roles.options.length; i++) {
                 if (add.roles.options[i].selected) {
                     roles.push({
@@ -327,7 +323,6 @@
                         role: add.roles.options[i].text})
                 }
             }
-            console.log('feth1')
             fetch("admin/user/" , {
                 method: 'POST',
                 headers: {
@@ -346,13 +341,10 @@
                 document.getElementById('formNewUser').reset();
                 $('#home-tab').click();
             })
-
         };
         if (button.id == 'btnDelete'){
             let id = document.getElementById('formGroupIdInput');
-            console.log('pered delete');
             button.addEventListener('click', function () {
-                console.log("delete " + "  " + id.value);
                 fetch("/admin/user/" + id.value, {
                     method: 'DELETE',
                     headers: {
@@ -367,10 +359,8 @@
 
         if (button.id == 'deleteUserBtn') {
             button.addEventListener('click', function () {
-                console.log("нажата")
                 const userId = this.getAttribute('userId');
                 // let id = button.attr('data-userid');
-                console.log(userId );
                 fetch("http://localhost:8080/admin/user/" + userId)
                     .then(response => response.json())
                     .then(user => {
@@ -399,7 +389,6 @@
                            role: formEdit.roles.options[i].text})
                      }
                 }
-                console.log(roles);
                 fetch("admin/user/" , {
                     method: 'PATCH',
                     headers: {
@@ -413,10 +402,8 @@
                        lastName: formEdit.lastName.value,
                         email: formEdit.email.value,
                         password: formEdit.password.value
-
                     })
                 }).then(() => {
-                    console.log(formEdit.value);
                     $('#closeEdit').click();
                     creatTable();
                 });

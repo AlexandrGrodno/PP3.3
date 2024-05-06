@@ -55,7 +55,6 @@ public class AdminController {
         return new ResponseEntity<>(userService.findAll().stream().map(x->userDTOMapper(x)).collect(Collectors.toList()), HttpStatus.OK);
      }
 
-
     @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable int id) {
         userService.deleteUserById(id);
