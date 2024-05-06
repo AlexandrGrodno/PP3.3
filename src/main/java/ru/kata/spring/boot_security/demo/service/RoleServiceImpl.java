@@ -22,8 +22,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findRoleByName(String name) {
-        roleDAO.findByRoleName(name);
+
         return roleDAO.findByRoleName(name);
+    }
+
+    @Override
+    public Role findRoleById(int id) {
+        return roleDAO.findByRoleId(id);
     }
 
     @Override

@@ -88,40 +88,7 @@
                                 <th>Delete</th>
                             </tr>
                             </thead>
-                            <tbody id="users-table">
-<!--                            <tr th:each="user : ${users}">-->
-<!--                                <td th:text="${user.getId()}"></td>-->
-<!--                                <td th:text="${user.getUsername()}"></td>-->
-<!--                                <td th:text="${user.getLastName()}"></td>-->
-<!--                                <td th:text="${user.getAge()}"></td>-->
-<!--                                <td th:text="${user.getEmail()}"></td>-->
-<!--                                <td th:text="${user.getAuthorities()}"></td>-->
-<!--                                <td>-->
-<!--                                    <button type="button"-->
-<!--                                            name="edit"-->
-<!--                                            id="editUserBtn"-->
-<!--                                            class="btn btn-primary"-->
-<!--                                            data-bs-toggle="modal"-->
-<!--                                            data-bs-target="#editModal"-->
-
-<!--                                            th:attr="userId=${user.id}">-->
-<!--                                        Edit-->
-
-<!--                                    </button>-->
-<!--                                </td>-->
-<!--                                <td>-->
-<!--                                    <button type="button"-->
-<!--                                            id="deleteUserBtn"-->
-<!--                                            class="btn btn-danger"-->
-<!--                                            data-bs-toggle="modal"-->
-<!--                                            data-bs-target="#deleteModal"-->
-
-<!--                                            th:attr="userId=${user.id}">-->
-<!--                                        Delete-->
-<!--                                    </button>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-                            </tbody>
+                            <tbody id="users-table"> </tbody>
                         </table>
                     </div>
 
@@ -163,10 +130,7 @@
                                     <select class="form-select"
                                         id="selectRoles" size="2" name="roles" >
 
-                                        <option
-<!--                                                th:each="role : ${roles}" th:value="${role.id}"-->
-<!--                                            th:text="${role.role}"-->
-                                        ></option>
+                                        <option></option>
                                     </select>
 
 
@@ -199,14 +163,7 @@
                     </tr>
                     </thead>
                     <tbody id="current table">
-<!--                    <tr>-->
-<!--                        <td th:text="${currentUser.getId()}">id</td>-->
-<!--                        <td th:text="${currentUser.getUsername()}">name</td>-->
-<!--                        <td th:text="${currentUser.getLastName()}">lastname</td>-->
-<!--                        <td th:text="${currentUser.getAge()}">age</td>-->
-<!--                        <td th:text="${currentUser.getEmail()}">email</td>-->
-<!--                        <td th:text="${currentUser.getAuthorities()}">autorities</td>-->
-<!--                    </tr>-->
+
                     </tbody>
                 </table>
             </div>
@@ -253,9 +210,7 @@
                         </div>
                         <br>
                         <select class="form-select" multiple aria-label="пример множественного выбора" name="roles" id="editRoles">
-                            <option id="editRoles1"
-                                    th:each="role : ${roles}" th:value="${role.id}"
-                                    th:text="${role.role}">
+                            <option id="editRoles1">
                             </option>
                         </select>
                     </form>
@@ -389,6 +344,7 @@
                 })
             }).then(() =>creatTable());
                 document.getElementById('formNewUser').reset();
+                $('#home-tab').click();
             })
 
         };
@@ -439,26 +395,28 @@
                 for (let i = 0; i < formEdit.roles.options.length; i++) {
                      if (formEdit.roles.options[i].selected) {
                          roles.push({
-                           id: formEdit.roles.options[i].value,
+                           id: 2,
                            role: formEdit.roles.options[i].text})
                      }
                 }
-                console.log('knopka izmenit3');
+                console.log(roles);
                 fetch("admin/user/" , {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        roles: roles,
                         id: formEdit.id.value,
                         userName: formEdit.firstName.value,
                         age: formEdit.age.value,
                        lastName: formEdit.lastName.value,
                         email: formEdit.email.value,
-                        password: formEdit.password.value,
-                        roles: roles
+                        password: formEdit.password.value
+
                     })
                 }).then(() => {
+                    console.log(formEdit.value);
                     $('#closeEdit').click();
                     creatTable();
                 });
@@ -466,17 +424,7 @@
             });
         };
     });
-    // });
-    // function handleFormSubmit(event) {
-    //     // Просим форму не отправлять данные самостоятельно
-    //     event.preventDefault()
-    //     console.log('Отправка!')
-    // }
-    //
-    // const applicantForm = document.getElementById('deleteUserBtn');
-    // console.log(applicantForm.id)
-    // // applicantForm.getAttribute(user)
-    // // addEventListener('submit', handleFormSubmit)
+
 </script>
 </body>
 </html>

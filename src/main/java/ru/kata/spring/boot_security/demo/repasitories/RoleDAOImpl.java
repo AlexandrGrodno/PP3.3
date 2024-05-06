@@ -34,6 +34,13 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
+    public Role findByRoleId(int id) {
+        Query query = em.createQuery("Select r from Role r  where r.id=:id");
+        query.setParameter("id", id);
+        return (Role) query.getSingleResult();
+    }
+
+    @Override
     public void saveRole(Role role) {
         em.merge(role);
     }

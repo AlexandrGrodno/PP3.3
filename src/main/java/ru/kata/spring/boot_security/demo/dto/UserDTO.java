@@ -10,6 +10,21 @@ public class UserDTO {
     private String lastName;
     private String email;
     private String password;
+    private int age;
+    private Set<Role> roles;
+    private String role;
+
+    public UserDTO() {
+    }
+    public UserDTO(int id, String userName, String lastName, String email, String password, int age, Set<Role> roles) {
+        this.id = id;
+        this.userName = userName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+        this.roles = roles;
+    }
 
     public String getRole() {
         return role;
@@ -19,7 +34,6 @@ public class UserDTO {
         this.role = role;
     }
 
-    private String role;
 
     public int getAge() {
         return age;
@@ -29,8 +43,7 @@ public class UserDTO {
         this.age = age;
     }
 
-    private int age;
-    private Set<Role> roles;
+
 
     public int getId() {
         return id;
@@ -79,4 +92,5 @@ public class UserDTO {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

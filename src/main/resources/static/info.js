@@ -94,7 +94,7 @@ function buttonDelete(id){
 function creatTable(){
     let table = document.getElementById('allUser');
     let row ='';
-    fetch("http://localhost:8080/adminn/")
+    fetch("http://localhost:8080/admin/user")
         .then(response => response.json())
         .then(users => {
             users.forEach(function (user){
